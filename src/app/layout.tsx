@@ -4,14 +4,14 @@ import localFont from "next/font/local";
 
 // Load Inter Variable Font Locally
 const inter = localFont({
-  src: "/fonts/Inter-VariableFont_opsz,wght.ttf",
+  src: "fonts/Inter-VariableFont_opsz,wght.ttf",
   variable: "--font-inter",
   display: "swap",
 });
 
 // Load Syne Variable Font Locally
 const syne = localFont({
-  src: "/fonts/Syne-VariableFont_wght.ttf",
+  src: "fonts/Syne-VariableFont_wght.ttf",
   variable: "--font-syne",
   display: "swap",
 });
