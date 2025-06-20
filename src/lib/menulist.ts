@@ -4,6 +4,7 @@ import {
   ListTodo,
   Activity,
   LucideIcon,
+  Shield,
 } from "lucide-react";
 
 type Menu = {
@@ -33,6 +34,11 @@ export function getMenuList(): Menu[] {
       href: "/engagement",
       label: "Engagement",
       icon: Activity,
+    },
+    {
+      href: "/admins",
+      label: "Admin",
+      icon: Shield,
     },
   ];
 }

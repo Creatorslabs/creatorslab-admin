@@ -1,14 +1,11 @@
-"use client"
 import { DataTable } from '@/components/data-table';
 import { StatCard } from '@/components/stat-card';
-import { Button } from '@/components/ui/button';
-import { Users, TrendingUp, CheckSquare } from 'lucide-react';
-import { useRouter } from 'next/navigation';
+import { Users, UserCheck, UserX } from 'lucide-react';
 
 const statsData = [
   { title: 'Total Users', value: '32,001', icon: Users },
-  { title: 'Total Engagement', value: '2,450', icon: TrendingUp },
-  { title: 'Task Created', value: '25,100', icon: CheckSquare },
+  { title: 'Verified users', value: '12,001', icon: UserCheck },
+  { title: 'Unverified users', value: '25,100', icon: UserX },
 ];
 
 const usersColumns = [
@@ -26,25 +23,15 @@ const usersData = [
   { username: 'John-Dre', email: 'Jondre@email.com', walletAddress: 'Dx45ru...o987', accountType: 'Creator', status: 'Verified' },
   { username: 'John-Dre', email: 'Jondre@email.com', walletAddress: 'Dx45ru...o987', accountType: 'Creator', status: 'Verified' },
   { username: 'John-Dre', email: 'Jondre@email.com', walletAddress: 'Dx45ru...o987', accountType: 'Creator', status: 'Unverified' },
+  { username: 'John-Dre', email: 'Jondre@email.com', walletAddress: 'Dx45ru...o987', accountType: 'Creator', status: 'Verified' },
+  { username: 'John-Dre', email: 'Jondre@email.com', walletAddress: 'Dx45ru...o987', accountType: 'Creator', status: 'Unverified' },
+  { username: 'John-Dre', email: 'Jondre@email.com', walletAddress: 'Dx45ru...o987', accountType: 'Creator', status: 'Verified' },
+  { username: 'John-Dre', email: 'Jondre@email.com', walletAddress: 'Dx45ru...o987', accountType: 'Creator', status: 'Unverified' },
+  { username: 'John-Dre', email: 'Jondre@email.com', walletAddress: 'Dx45ru...o987', accountType: 'Creator', status: 'Verified' },
+  { username: 'John-Dre', email: 'Jondre@email.com', walletAddress: 'Dx45ru...o987', accountType: 'Creator', status: 'Unverified' },
 ];
 
-const tasksColumns = [
-  { key: 'title', header: 'Title' },
-  { key: 'platform', header: 'Platform' },
-  { key: 'engagementType', header: 'Engagement Type' },
-];
-
-const tasksData = [
-  { title: 'Superteam Bounty', platform: 'Telegram', engagementType: ['Join channel'] },
-  { title: 'Payment Follow', platform: 'X', engagementType: ['Follow Page'] },
-  { title: 'Content Post', platform: 'X', engagementType: ['Like Post'] },
-  { title: 'Trykey post', platform: 'X', engagementType: ['Quote'] },
-  { title: 'Trykey channel', platform: 'Discord', engagementType: ['Join channel'] },
-  { title: 'Superteam NG', platform: 'Discord', engagementType: ['Join channel'] },
-];
-
-export default function DashboardPage() {
-  const router = useRouter()
+export default function UsersPage() {
   return (
     <div className="space-y-6">
         {/* Stats Cards */}
@@ -54,27 +41,12 @@ export default function DashboardPage() {
           ))}
         </div>
 
-        {/* Tables */}
-        <div className="grid grid-cols-1 xl:grid-cols-5 gap-6">
-  <div className="xl:col-span-3">
-    <DataTable
-      title="Users"
-      columns={usersColumns}
-      data={usersData}
-    />
-  </div>
-
-  <div className="xl:col-span-2">
-    <DataTable
-      title="Task"
-      actionText="View All"
-      onAction={() => router.push("/tasks")}
-      columns={tasksColumns}
-      data={tasksData}
-    />
-  </div>
-</div>
-
+        {/* Users Table */}
+        <DataTable
+          title="Users"
+          columns={usersColumns}
+          data={usersData.slice(0,10)}
+        />
       </div>
   );
 }

@@ -1,0 +1,150 @@
+import { Card } from "@/components/ui/card";
+import { Button } from "@/components/ui/button";
+
+interface Column {
+  key: string;
+  header: string;
+  width?: string;
+}
+
+interface PaginationProps {
+  currentPage: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+}
+
+interface DataTableProps {
+  title: string;
+  actionText?: string;
+  onAction?: () => void;
+  columns: Column[];
+  data: any[];
+  pagination?: PaginationProps;
+}
+
+export function DataTable({
+  title,
+  actionText,
+  onAction,
+  columns,
+  data,
+  pagination,
+}: DataTableProps) {
+  const getStatusColor = (status: string) => {
+    switch (status.toLowerCase()) {
+      case "verified":
+      case "active":
+        return "text-blue-500";
+      case "unverified":
+      case "inactive":
+        return "text-yellow-500";
+      default:
+        return "text-gray-500";
+    }
+  };
+
+  const renderCellValue = (value: any, key: string) => {
+    if (key === "status") {
+      return (
+        <span className={`text-sm font-medium ${getStatusColor(value)}`}>
+          {value}
+        </span>
+      );
+    }
+
+    if (key === "engagementType" && Array.isArray(value)) {
+      return value.map((type, index) => (
+        <span key={index} className="text-sm font-medium text-blue-400 mr-1">
+          {type}
+        </span>
+      ));
+    }
+
+    if (
+      typeof value === "string" &&
+      (value.includes("Join channel") ||
+        value.includes("Follow") ||
+        value.includes("Like") ||
+        value.includes("Quote"))
+    ) {
+      return <span className="text-blue-400">{value}</span>;
+    }
+
+    return value;
+  };
+
+  return (
+    <Card className="bg-card-box border-border">
+      <div className="p-6 border-b border-border">
+        <div className="flex items-center justify-between">
+          <h3 className="text-foreground text-lg font-semibold">{title}</h3>
+          {onAction && actionText && (
+            <Button
+              onClick={onAction}
+              size="sm"
+              className="text-foreground bg-primary hover:bg-secondary"
+            >
+              {actionText}
+            </Button>
+          )}
+        </div>
+      </div>
+
+      <div className="overflow-x-auto">
+        <table className="w-full">
+          <thead className="bg-card">
+            <tr>
+              {columns.map((column) => (
+                <th
+                  key={column.key}
+                  className="px-6 py-3 text-left text-xs font-medium text-gray-400 uppercase tracking-wider"
+                  style={{ width: column.width }}
+                >
+                  {column.header}
+                </th>
+              ))}
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-700">
+            {data.map((row, index) => (
+              <tr key={index} className="hover:bg-gray-750 transition-colors">
+                {columns.map((column) => (
+                  <td
+                    key={column.key}
+                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-300"
+                  >
+                    {renderCellValue(row[column.key], column.key)}
+                  </td>
+                ))}
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {pagination && (
+        <div className="flex items-center justify-end gap-2 p-4 border-t border-border">
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => pagination.onPageChange(pagination.currentPage - 1)}
+            disabled={pagination.currentPage <= 1}
+          >
+            Previous
+          </Button>
+          <span className="text-sm text-muted-foreground">
+            Page {pagination.currentPage} of {pagination.totalPages}
+          </span>
+          <Button
+            size="sm"
+            variant="outline"
+            onClick={() => pagination.onPageChange(pagination.currentPage + 1)}
+            disabled={pagination.currentPage >= pagination.totalPages}
+          >
+            Next
+          </Button>
+        </div>
+      )}
+    </Card>
+  );
+}

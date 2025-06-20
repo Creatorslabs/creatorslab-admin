@@ -14,7 +14,9 @@ export default {
   			foreground: 'hsl(var(--foreground))',
   			card: {
   				DEFAULT: '#212121',
-  				foreground: '#2C2C2C'
+					foreground: '#2C2C2C',
+					box: "#191919",
+					icon: "#787878",
   			},
   			popover: {
   				DEFAULT: 'hsl(var(--popover))',
@@ -66,11 +68,6 @@ export default {
   				border: 'hsl(var(--sidebar-border))',
   				ring: 'hsl(var(--sidebar-ring))'
   			}
-  		},
-  		borderRadius: {
-  			lg: 'var(--radius)',
-  			md: 'calc(var(--radius) - 2px)',
-  			sm: 'calc(var(--radius) - 4px)'
   		},
   		fontFamily: {
   			inter: 'inter',

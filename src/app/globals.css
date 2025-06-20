@@ -83,7 +83,7 @@
 
     --sidebar-ring: 217.2 91.2% 59.8%
   
-    --radius: 0.5rem;
+    --radius: 8px;
   }
 
   .dark {
@@ -151,7 +151,7 @@
 
     --sidebar-ring: 217.2 91.2% 59.8%
   
-    --radius: 0.5rem;
+    --radius: 8px;
   }
 }
 

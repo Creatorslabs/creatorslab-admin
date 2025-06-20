@@ -20,8 +20,6 @@ interface MenuProps {
 
 export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
-
-  console.log("Path:", pathname)
   const menuList = getMenuList();
 
   return (
@@ -44,8 +42,8 @@ export function Menu({ isOpen }: MenuProps) {
                   <Tooltip delayDuration={100}>
                     <TooltipTrigger asChild>
                       <Button
-                        className={cn("w-full justify-start h-10 mb-1 px-4 py-6 rounded-xl bg-transparent border-none text-foreground hover:bg-white/10 shadow-none", {
-                            "bg-white/10 text-white": isActive,
+                        className={cn("w-full justify-start h-10 mb-1 px-4 py-6 rounded-lg bg-transparent border-none text-foreground hover:bg-white/10 shadow-none", {
+                            "bg-white/10 text-foreground": isActive,
                             "hover:bg-white/5": !isActive,
                           })}
                         asChild
@@ -82,7 +80,7 @@ export function Menu({ isOpen }: MenuProps) {
               <TooltipTrigger asChild>
                 <Button
                   onClick={() => {}}
-                  className="w-full justify-center h-10 mt-5 px-4 py-6 rounded-xl bg-card/10 hover:bg-white/5 text-foreground shadow-none"
+                  className="w-full justify-center h-10 mt-5 px-4 py-6 rounded-lg bg-card/10 hover:bg-white/5 text-foreground shadow-none"
                 >
                   <span className={cn(isOpen === false ? "" : "mr-4")}>
                     <LogOut size={18} />
