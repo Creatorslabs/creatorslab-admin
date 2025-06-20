@@ -157,7 +157,7 @@ const handlePermissionToggle = (permission: string) => {
                   id="name"
                   value={formData.name}
                   onChange={(e) => setFormData(prev => ({ ...prev, name: e.target.value }))}
-                  className="mt-1 bg-gray-700 border-gray-600 text-white"
+                  className="mt-1 bg-gray-700 border-border text-white"
                   placeholder="Enter full name"
                   required
                   disabled={isFormDisabled}
@@ -171,7 +171,7 @@ const handlePermissionToggle = (permission: string) => {
                   type="email"
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
-                  className="mt-1 bg-gray-700 border-gray-600 text-white"
+                  className="mt-1 bg-gray-700 border-border text-white"
                   placeholder="Enter email address"
                   required
                   disabled={isFormDisabled}
@@ -185,12 +185,12 @@ const handlePermissionToggle = (permission: string) => {
                   onValueChange={(value: string) => setFormData(prev => ({ ...prev, role: value }))}
                   disabled={isFormDisabled}
                 >
-                  <SelectTrigger className="mt-1 bg-gray-700 border-gray-600 text-white">
+                  <SelectTrigger className="mt-1 bg-gray-700 border-border text-white">
                     <SelectValue placeholder="Select role" />
                   </SelectTrigger>
-                  <SelectContent className="bg-gray-700 border-gray-600">
+                  <SelectContent className="bg-gray-700 border-border">
                     {roleOptions.map((role) => (
-                      <SelectItem key={role.value} value={role.value} className="text-white hover:bg-gray-600">
+                      <SelectItem key={role.value} value={role.value} className="text-white hover:bg-border">
                         {role.label}
                       </SelectItem>
                     ))}
@@ -207,7 +207,7 @@ const handlePermissionToggle = (permission: string) => {
                         type="checkbox"
                         checked={formData.permissions?.includes(permission)}
                         onChange={() => handlePermissionToggle(permission)}
-                        className="rounded border-gray-600 bg-gray-700 text-purple-600 focus:ring-purple-500"
+                        className="rounded border-border bg-gray-700 text-purple-600 focus:ring-purple-500"
                         disabled={isFormDisabled}
                       />
                       <span className="text-sm text-gray-300">{permission}</span>
@@ -223,7 +223,7 @@ const handlePermissionToggle = (permission: string) => {
               type="button"
               variant="outline"
               onClick={onClose}
-              className="border-gray-600 text-gray-300 hover:bg-gray-700"
+              className="border-border text-gray-300 hover:bg-gray-700"
             >
               Cancel
             </Button>
