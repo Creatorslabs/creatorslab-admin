@@ -46,6 +46,7 @@ export const authOptions: NextAuthOptions = {
           name: admin.name,
           role: "admin",
           status: admin.status,
+          image: admin.image ?? "",
         };
       },
     }),
@@ -72,6 +73,7 @@ export const authOptions: NextAuthOptions = {
       if (user) {
         token.id = user.id;
         token.email = user.email;
+        token.image = user.image;
         token.name = user.name;
         token.role = user.role;
         token.status = user.status;
@@ -83,6 +85,7 @@ export const authOptions: NextAuthOptions = {
         if (admin) {
           token.role = admin.role;
           token.status = admin.status;
+          token.image = admin.image ?? "";
         }
       }
 
@@ -93,6 +96,7 @@ export const authOptions: NextAuthOptions = {
         session.user.id = token.id as string;
         session.user.email = token.email as string;
         session.user.name = token.name as string;
+        session.user.image = token.image as string;
         session.user.role = token.role as string;
         session.user.status = token.status as "Active" | "Restricted" | "Banned";;
       }

@@ -14,6 +14,7 @@ export interface IAdmin extends Document {
   name: string;
   email: string;
   role: AdminRole;
+  image?: string;
   password: string;
   permissions: AdminPermission[];
   status: AdminStatus;
@@ -40,6 +41,9 @@ const AdminSchema = new Schema<IAdmin>(
       type: String,
       enum: ["Super Admin", "Admin", "Moderator", "Support"],
       default: "Admin",
+    },
+    image: {
+      type: String,
     },
     password: {
       type: String,
