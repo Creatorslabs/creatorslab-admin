@@ -5,6 +5,7 @@ declare module "next-auth" {
     user: {
       id: string;
       name: string;
+      image: string;
       email: string;
       status: "Active" | "Restricted" | "Banned";
       role?: string;
@@ -14,6 +15,7 @@ declare module "next-auth" {
   interface User {
     id: string;
     name: string;
+    image: string;
     email: string;
     status: "Active" | "Restricted" | "Banned";
     role?: string;
@@ -25,6 +27,7 @@ declare module "next-auth/jwt" {
     id: string;
     email: string;
     name: string;
+    image: string;
     status: "Active" | "Restricted" | "Banned";
     role?: string;
   }

@@ -1,6 +1,4 @@
 import bcrypt from 'bcryptjs';
-import { generateUniqueReferralCode } from './generateReferralCode';
-import User from './models/User';
 
 export async function hashPassword(password: string): Promise<string> {
   const saltRounds = 12;

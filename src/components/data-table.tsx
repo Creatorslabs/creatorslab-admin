@@ -5,11 +5,14 @@ interface Column {
   key: string;
   header: string;
   width?: string;
+  render?: (row: any) => React.ReactNode;
 }
 
 interface PaginationProps {
-  currentPage: number;
-  totalPages: number;
+  page: number;
+  pages: number;
+  hasNext: boolean;
+  hasPrev: boolean;
   onPageChange: (page: number) => void;
 }
 
@@ -75,6 +78,7 @@ export function DataTable({
 
   return (
     <Card className="bg-card-box border-border">
+      {/* Header */}
       <div className="p-6 border-b border-border">
         <div className="flex items-center justify-between">
           <h3 className="text-foreground text-lg font-semibold">{title}</h3>
@@ -90,6 +94,7 @@ export function DataTable({
         </div>
       </div>
 
+      {/* Table */}
       <div className="overflow-x-auto">
         <table className="w-full">
           <thead className="bg-card">
@@ -106,40 +111,54 @@ export function DataTable({
             </tr>
           </thead>
           <tbody className="divide-y divide-gray-700">
-            {data.map((row, index) => (
-              <tr key={index} className="hover:bg-gray-750 transition-colors">
-                {columns.map((column) => (
-                  <td
-                    key={column.key}
-                    className="px-6 py-4 whitespace-nowrap text-sm text-gray-300"
-                  >
-                    {renderCellValue(row[column.key], column.key)}
-                  </td>
-                ))}
+            {data.length === 0 ? (
+              <tr>
+                <td
+                  colSpan={columns.length}
+                  className="px-6 py-6 text-center text-sm text-muted-foreground"
+                >
+                  No records found.
+                </td>
               </tr>
-            ))}
+            ) : (
+              data.map((row, index) => (
+                <tr key={index} className="hover:bg-gray-750 transition-colors">
+                  {columns.map((column) => (
+                    <td
+                      key={column.key}
+                      className="px-6 py-4 whitespace-nowrap text-sm text-gray-300"
+                    >
+                      {column.render
+                        ? column.render(row)
+                        : renderCellValue(row[column.key], column.key)}
+                    </td>
+                  ))}
+                </tr>
+              ))
+            )}
           </tbody>
         </table>
       </div>
 
+      {/* Pagination */}
       {pagination && (
         <div className="flex items-center justify-end gap-2 p-4 border-t border-border">
           <Button
             size="sm"
             variant="outline"
-            onClick={() => pagination.onPageChange(pagination.currentPage - 1)}
-            disabled={pagination.currentPage <= 1}
+            onClick={() => pagination.onPageChange(pagination.page - 1)}
+            disabled={!pagination.hasPrev}
           >
             Previous
           </Button>
           <span className="text-sm text-muted-foreground">
-            Page {pagination.currentPage} of {pagination.totalPages}
+            Page {pagination.page} of {pagination.pages}
           </span>
           <Button
             size="sm"
             variant="outline"
-            onClick={() => pagination.onPageChange(pagination.currentPage + 1)}
-            disabled={pagination.currentPage >= pagination.totalPages}
+            onClick={() => pagination.onPageChange(pagination.page + 1)}
+            disabled={!pagination.hasNext}
           >
             Next
           </Button>

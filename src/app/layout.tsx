@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 import "./globals.css";
-import { SidebarProvider } from "@/components/ui/sidebar";
 import AppLayout from "@/components/layout/AppLayout";
+import { Providers } from "@/components/Provider";
 
 export const metadata: Metadata = {
   title: "Admin - Empowering Global Creativity with Web3",
@@ -19,9 +19,7 @@ export default function RootLayout({
       <body
         className={`antialiased bg-background text-foreground min-h-screen flex w-full`}
       >
-        <SidebarProvider>
-          <AppLayout>{children}</AppLayout>
-        </SidebarProvider>
+        <Providers><AppLayout>{children}</AppLayout></Providers>
       </body>
     </html>
   );

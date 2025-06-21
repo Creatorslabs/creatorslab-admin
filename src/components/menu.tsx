@@ -13,6 +13,7 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 import { getMenuList } from "@/lib/menulist";
+import { useSession } from "next-auth/react";
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -20,7 +21,17 @@ interface MenuProps {
 
 export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
-  const menuList = getMenuList();
+  const { data: session } = useSession();
+
+  const role = session?.user?.role;
+
+  const menuList = getMenuList().filter(item => {
+    // Hide /admins route if role is not Super Admin
+    if (item.href === '/admins' && role !== 'Super Admin') {
+      return false;
+    }
+    return true;
+  });
 
   return (
     <nav className="flex flex-col h-full w-full mt-8">

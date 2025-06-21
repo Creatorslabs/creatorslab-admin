@@ -1,11 +1,15 @@
 import NextAuth, { NextAuthOptions } from "next-auth";
 import CredentialsProvider from "next-auth/providers/credentials";
+import GoogleProvider from "next-auth/providers/google";
 import { Admin, IAdmin } from "@/lib/models/Admin";
 import { verifyPassword } from "../auth";
 import connectDB from "../connectDB";
 
 export const authOptions: NextAuthOptions = {
-  providers: [
+    providers: [GoogleProvider({
+      clientId: process.env.GOOGLE_CLIENT_ID!,
+      clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
+    }),
     CredentialsProvider({
       name: "Admin Login",
       credentials: {
@@ -51,6 +55,19 @@ export const authOptions: NextAuthOptions = {
     maxAge: 7 * 24 * 60 * 60, // 7 days
   },
   callbacks: {
+    async signIn({ user }) {
+      try {
+        const admin = await Admin.findOne({ email: user.email });
+        if (admin) {
+          admin.lastLogin = new Date();
+          await admin.save();
+        }
+      } catch (error) {
+        console.error("Failed to update lastLogin:", error);
+      }
+  
+      return true; // allow sign-in
+    },
     async jwt({ token, user }) {
       if (user) {
         token.id = user.id;
@@ -64,6 +81,7 @@ export const authOptions: NextAuthOptions = {
         await connectDB();
         const admin = await Admin.findOne({ email: token.email }).lean<IAdmin>();
         if (admin) {
+          token.role = admin.role;
           token.status = admin.status;
         }
       }
