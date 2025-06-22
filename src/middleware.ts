@@ -20,6 +20,18 @@ export default withAuth(
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
 
+    const publicFile = /\.(.*)$/.test(path);
+    const isNextStatic = path.startsWith("/_next/");
+
+    if (
+      publicFile ||
+      isNextStatic ||
+      path.startsWith("/fonts") ||
+      path.startsWith("/images")
+    ) {
+      return NextResponse.next();
+    }
+
     const isAuth = !!token;
     const role = token?.role as UserRole;
     const status = token?.status as UserStatus;
@@ -91,4 +103,3 @@ export const config = {
     "/((?!_next/static|_next/image|favicon.ico|auth/signin|auth/callback|public|^$).*)",
   ],
 };
-
