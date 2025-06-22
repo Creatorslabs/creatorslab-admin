@@ -1,11 +1,14 @@
-import bcrypt from 'bcryptjs';
+import bcrypt from "bcryptjs";
 
 export async function hashPassword(password: string): Promise<string> {
   const saltRounds = 12;
   return await bcrypt.hash(password, saltRounds);
 }
 
-export async function verifyPassword(password: string, hashedPassword: string): Promise<boolean> {
+export async function verifyPassword(
+  password: string,
+  hashedPassword: string
+): Promise<boolean> {
   return await bcrypt.compare(password, hashedPassword);
 }
 
@@ -14,22 +17,37 @@ export function validateEmail(email: string): boolean {
   return emailRegex.test(email);
 }
 
-export function validatePassword(password: string): { isValid: boolean; message?: string } {
+export function validatePassword(password: string): {
+  isValid: boolean;
+  message?: string;
+} {
   if (password.length < 6) {
-    return { isValid: false, message: 'Password must be at least 6 characters long' };
+    return {
+      isValid: false,
+      message: "Password must be at least 6 characters long",
+    };
   }
-  
+
   if (!/(?=.*[a-z])/.test(password)) {
-    return { isValid: false, message: 'Password must contain at least one lowercase letter' };
+    return {
+      isValid: false,
+      message: "Password must contain at least one lowercase letter",
+    };
   }
-  
+
   if (!/(?=.*[A-Z])/.test(password)) {
-    return { isValid: false, message: 'Password must contain at least one uppercase letter' };
+    return {
+      isValid: false,
+      message: "Password must contain at least one uppercase letter",
+    };
   }
-  
+
   if (!/(?=.*\d)/.test(password)) {
-    return { isValid: false, message: 'Password must contain at least one number' };
+    return {
+      isValid: false,
+      message: "Password must contain at least one number",
+    };
   }
-  
+
   return { isValid: true };
 }

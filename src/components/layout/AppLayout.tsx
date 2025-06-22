@@ -7,20 +7,21 @@ import { SidebarLayout } from "./SidebarLayout";
 import { AdminNavbar } from "../NavBar";
 import { getMenuList } from "@/lib/menulist";
 import { usePathname } from "next/navigation";
+import { useSession } from "next-auth/react";
 
-export default function AppLayout({
-  children,
-}: {
-  children: React.ReactNode;
-}) {
+export default function AppLayout({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const sidebar = useStore(useSidebar, (x) => x);
+  const { data: session } = useSession();
+
+  const role = session?.user?.role;
 
   if (!sidebar) return null;
+  if (!role) return <div className="w-full">{children}</div>;
 
   const { getOpenState, settings } = sidebar;
 
-  const allowedPaths = getMenuList().map((item) => item.href);
+  const allowedPaths = getMenuList(role).map((item) => item.href);
   const shouldRenderLayout = allowedPaths.includes(pathname);
 
   if (!shouldRenderLayout) {
@@ -32,15 +33,12 @@ export default function AppLayout({
       <SidebarLayout />
       <main
         className={cn(
-          "flex-1 h-full overflow-auto bg-card transition-[margin-left] ease-in-out duration-300 bg-background",
+          "flex-1 h-full overflow-auto bg-card transition-[margin-left] ease-in-out duration-300",
           !settings.disabled && (!getOpenState() ? "lg:ml-[90px]" : "lg:ml-72")
         )}
       >
         <AdminNavbar />
-
-        <div className="pt-7 md:pt-16 px-4 md:px-6">
-          {children}
-        </div>
+        <div className="pt-7 md:pt-16 px-4 md:px-6">{children}</div>
       </main>
     </div>
   );

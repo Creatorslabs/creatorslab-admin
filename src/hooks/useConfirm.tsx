@@ -1,5 +1,11 @@
 import { useState } from "react";
-import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } from "@/components/ui/dialog";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
 
@@ -58,14 +64,18 @@ export function useConfirm() {
   };
 
   const ConfirmModal = () => (
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-          <DialogDescription className="sr-only"/>
+    <Dialog open={isOpen} onOpenChange={setIsOpen}>
+      <DialogDescription className="sr-only" />
       <DialogContent className="bg-card-box border-border text-foreground max-w-md">
         <DialogHeader>
-          <DialogTitle className="text-lg font-semibold">{options.title}</DialogTitle>
+          <DialogTitle className="text-lg font-semibold">
+            {options.title}
+          </DialogTitle>
         </DialogHeader>
 
-        <p className="text-sm text-muted-foreground mt-2">{options.description}</p>
+        <p className="text-sm text-muted-foreground mt-2">
+          {options.description}
+        </p>
 
         <div className="flex justify-end gap-3 pt-6">
           <Button

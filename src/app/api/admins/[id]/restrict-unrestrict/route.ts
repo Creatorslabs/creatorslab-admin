@@ -13,8 +13,8 @@ export async function PATCH(
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
   }
 
-    const { id } = await context.params;
-    
+  const { id } = await context.params;
+
   await connectDB();
 
   const adminUser = await Admin.findOne({ email: session.user.email });
@@ -35,7 +35,9 @@ export async function PATCH(
 
   return NextResponse.json({
     success: true,
-    message: `Admin ${target.status === "Restricted" ? "restricted" : "unrestricted"} successfully`,
+    message: `Admin ${
+      target.status === "Restricted" ? "restricted" : "unrestricted"
+    } successfully`,
     data: target,
   });
 }

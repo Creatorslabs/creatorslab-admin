@@ -1,18 +1,18 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { signIn } from 'next-auth/react';
-import { useRouter } from 'next/navigation';
-import { Button } from '@/components/ui/button';
-import { Input } from '@/components/ui/input';
-import { Label } from '@/components/ui/label';
-import { Card } from '@/components/ui/card';
-import Image from 'next/image';
-import { FcGoogle } from 'react-icons/fc';
+import { useState } from "react";
+import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Card } from "@/components/ui/card";
+import Image from "next/image";
+import { FcGoogle } from "react-icons/fc";
 
 export default function LoginPage() {
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [loading, setLoading] = useState(false);
   const router = useRouter();
 
@@ -20,7 +20,7 @@ export default function LoginPage() {
     e.preventDefault();
     setLoading(true);
 
-    const res = await signIn('credentials', {
+    const res = await signIn("credentials", {
       redirect: false,
       email,
       password,
@@ -29,14 +29,14 @@ export default function LoginPage() {
     setLoading(false);
 
     if (res?.ok) {
-      router.push('/');
+      router.push("/");
     } else {
-      alert(res?.error || 'Login failed');
+      alert(res?.error || "Login failed");
     }
   };
 
   const handleGoogleLogin = () => {
-    signIn('google');
+    signIn("google");
   };
 
   return (
@@ -45,9 +45,16 @@ export default function LoginPage() {
         <div className="flex items-center justify-center mb-8">
           <div className="flex items-center space-x-2">
             <div className="w-8 h-8 rounded-lg flex items-center justify-center">
-              <Image src="/images/logo.png" width={30} height={30} alt="CreatorsLab logo" />
+              <Image
+                src="/images/logo.png"
+                width={30}
+                height={30}
+                alt="CreatorsLab logo"
+              />
             </div>
-            <span className="text-foreground text-xl font-semibold">creatorslab</span>
+            <span className="text-foreground text-xl font-semibold">
+              creatorslab
+            </span>
           </div>
         </div>
 
@@ -63,7 +70,9 @@ export default function LoginPage() {
 
           <form onSubmit={handleSubmit} className="space-y-6">
             <div>
-              <Label htmlFor="email" className="text-gray-300 text-sm">Email address</Label>
+              <Label htmlFor="email" className="text-gray-300 text-sm">
+                Email address
+              </Label>
               <Input
                 id="email"
                 type="email"
@@ -76,7 +85,9 @@ export default function LoginPage() {
             </div>
 
             <div>
-              <Label htmlFor="password" className="text-gray-300 text-sm">Password</Label>
+              <Label htmlFor="password" className="text-gray-300 text-sm">
+                Password
+              </Label>
               <Input
                 id="password"
                 type="password"
@@ -93,7 +104,7 @@ export default function LoginPage() {
               className="w-full bg-primary hover:bg-secondary text-foreground py-3 rounded-lg font-medium transition-colors"
               disabled={loading}
             >
-              {loading ? 'Signing in...' : 'Continue with email'}
+              {loading ? "Signing in..." : "Continue with email"}
             </Button>
           </form>
 

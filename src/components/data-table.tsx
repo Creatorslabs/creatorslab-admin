@@ -1,5 +1,6 @@
 import { Card } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface Column {
   key: string;
@@ -39,8 +40,11 @@ export function DataTable({
       case "active":
         return "text-blue-500";
       case "unverified":
+        return "text-red-500";
       case "inactive":
         return "text-yellow-500";
+      case "completed":
+        return "text-green-500";
       default:
         return "text-gray-500";
     }
@@ -55,7 +59,7 @@ export function DataTable({
       );
     }
 
-    if (key === "engagementType" && Array.isArray(value)) {
+    if (key === "type" && Array.isArray(value)) {
       return value.map((type, index) => (
         <span key={index} className="text-sm font-medium text-blue-400 mr-1">
           {type}
@@ -63,12 +67,23 @@ export function DataTable({
       ));
     }
 
+    const validEngagementTypes = [
+      "Join channel",
+      "Follow",
+      "Like",
+      "Quote",
+      "Retweet",
+      "Comment",
+      "Reply",
+      "Post",
+      "Tag",
+      "React",
+      "Invite",
+    ];
+
     if (
       typeof value === "string" &&
-      (value.includes("Join channel") ||
-        value.includes("Follow") ||
-        value.includes("Like") ||
-        value.includes("Quote"))
+      validEngagementTypes.some((type) => value.includes(type))
     ) {
       return <span className="text-blue-400">{value}</span>;
     }
@@ -122,7 +137,12 @@ export function DataTable({
               </tr>
             ) : (
               data.map((row, index) => (
-                <tr key={index} className="hover:bg-gray-750 transition-colors">
+                <tr
+                  key={index}
+                  className={cn("hover:bg-gray-750 transition-colors", {
+                    "bg-card/40": !(index % 2),
+                  })}
+                >
                   {columns.map((column) => (
                     <td
                       key={column.key}

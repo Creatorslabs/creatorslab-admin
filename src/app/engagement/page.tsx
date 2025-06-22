@@ -1,15 +1,18 @@
-'use client';
+"use client";
 
-import { useEffect, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { DataTable } from '@/components/data-table';
-import { EngagementFormModal } from '@/components/EngagementFormModal';
-import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
-import { MoreHorizontal, Pencil, Trash } from 'lucide-react';
-import { useConfirm } from '@/hooks/useConfirm';
+import { useEffect, useState } from "react";
+import { DataTable } from "@/components/data-table";
+import { EngagementFormModal } from "@/components/EngagementFormModal";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
+import { MoreHorizontal, Pencil, Trash } from "lucide-react";
+import { useConfirm } from "@/hooks/useConfirm";
 
 export default function EngagementPage() {
-  const router = useRouter();
   const [engagements, setEngagements] = useState([]);
   const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
@@ -19,8 +22,10 @@ export default function EngagementPage() {
     hasPrev: false,
   });
   const [isModalOpen, setIsModalOpen] = useState(false);
-  const [modalMode, setModalMode] = useState<'create' | 'edit'>('create');
-  const [selectedEngagement, setSelectedEngagement] = useState<any | null>(null);
+  const [modalMode, setModalMode] = useState<"create" | "edit">("create");
+  const [selectedEngagement, setSelectedEngagement] = useState<any | null>(
+    null
+  );
   const { confirm, ConfirmModal } = useConfirm();
 
   const fetchEngagements = async (page = 1) => {
@@ -34,7 +39,7 @@ export default function EngagementPage() {
         setPagination(json.data.pagination);
       }
     } catch (err) {
-      console.error('Failed to fetch engagements', err);
+      console.error("Failed to fetch engagements", err);
     } finally {
       setLoading(false);
     }
@@ -45,13 +50,13 @@ export default function EngagementPage() {
   }, []);
 
   const engagementColumns = [
-    { key: 'name', header: 'Name' },
-    { key: 'socialPlatform', header: 'Social Platform' },
-    { key: 'engagementType', header: 'Engagement type' },
-    { key: 'status', header: 'Status' },
+    { key: "name", header: "Name" },
+    { key: "socialPlatform", header: "Social Platform" },
+    { key: "engagementType", header: "Engagement type" },
+    { key: "status", header: "Status" },
     {
-      key: 'actions',
-      header: '',
+      key: "actions",
+      header: "",
       render: (engagement: any) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
@@ -76,8 +81,8 @@ export default function EngagementPage() {
             </DropdownMenuItem>
           </DropdownMenuContent>
         </DropdownMenu>
-      )
-    }
+      ),
+    },
   ];
 
   const handlePageChange = (page: number) => {
@@ -86,31 +91,31 @@ export default function EngagementPage() {
 
   const createEngagement = async (data: any) => {
     try {
-      const res = await fetch('/api/engagements', {
-        method: 'POST',
+      const res = await fetch("/api/engagements", {
+        method: "POST",
         body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
       if (res.ok) {
         fetchEngagements();
       }
     } catch (err) {
-      console.error('Create failed', err);
+      console.error("Create failed", err);
     }
   };
 
   const updateEngagement = async (id: string, data: any) => {
     try {
       const res = await fetch(`/api/engagements/${id}`, {
-        method: 'PUT',
+        method: "PUT",
         body: JSON.stringify(data),
-        headers: { 'Content-Type': 'application/json' },
+        headers: { "Content-Type": "application/json" },
       });
       if (res.ok) {
         fetchEngagements();
       }
     } catch (err) {
-      console.error('Update failed', err);
+      console.error("Update failed", err);
     }
   };
 
@@ -134,13 +139,13 @@ export default function EngagementPage() {
   };
 
   const handleCreate = () => {
-    setModalMode('create');
+    setModalMode("create");
     setSelectedEngagement(null);
     setIsModalOpen(true);
   };
 
   const handleEdit = (engagement: any) => {
-    setModalMode('edit');
+    setModalMode("edit");
     setSelectedEngagement(engagement);
     setIsModalOpen(true);
   };
@@ -159,23 +164,22 @@ export default function EngagementPage() {
         }}
       />
 
-<EngagementFormModal
-  isOpen={isModalOpen}
-  onClose={() => setIsModalOpen(false)}
-  mode={modalMode}
-  initialData={selectedEngagement}
-  onSubmit={(data) => {
-    if (modalMode === 'create') {
-      createEngagement(data);
-    } else {
-      updateEngagement(data._id!, data);
-    }
+      <EngagementFormModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        mode={modalMode}
+        initialData={selectedEngagement}
+        onSubmit={(data) => {
+          if (modalMode === "create") {
+            createEngagement(data);
+          } else {
+            updateEngagement(data._id!, data);
+          }
         }}
         existingEngagements={engagements}
-/>
+      />
 
-<ConfirmModal />
+      <ConfirmModal />
     </div>
-
   );
 }

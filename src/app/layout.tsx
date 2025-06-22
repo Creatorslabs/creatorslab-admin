@@ -19,7 +19,9 @@ export default function RootLayout({
       <body
         className={`antialiased bg-background text-foreground min-h-screen flex w-full`}
       >
-        <Providers><AppLayout>{children}</AppLayout></Providers>
+        <Providers>
+          <AppLayout>{children}</AppLayout>
+        </Providers>
       </body>
     </html>
   );

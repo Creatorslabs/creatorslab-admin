@@ -6,7 +6,8 @@ import { verifyPassword } from "../auth";
 import connectDB from "../connectDB";
 
 export const authOptions: NextAuthOptions = {
-    providers: [GoogleProvider({
+  providers: [
+    GoogleProvider({
       clientId: process.env.GOOGLE_CLIENT_ID!,
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
     }),
@@ -22,12 +23,17 @@ export const authOptions: NextAuthOptions = {
           throw new Error("Email and password are required.");
         }
 
-        const admin = await Admin.findOne({ email: credentials.email }).lean<IAdmin>();
+        const admin = await Admin.findOne({
+          email: credentials.email,
+        }).lean<IAdmin>();
         if (!admin || !admin.password) {
           throw new Error("Invalid credentials.");
         }
 
-        const isValid = await verifyPassword(credentials.password, admin.password);
+        const isValid = await verifyPassword(
+          credentials.password,
+          admin.password
+        );
         if (!isValid) {
           throw new Error("Invalid credentials.");
         }
@@ -66,22 +72,19 @@ export const authOptions: NextAuthOptions = {
       } catch (error) {
         console.error("Failed to update lastLogin:", error);
       }
-  
+
       return true; // allow sign-in
     },
     async jwt({ token, user }) {
       if (user) {
+        // On initial login
         token.id = user.id;
         token.email = user.email;
-        token.image = user.image;
         token.name = user.name;
-        token.role = user.role;
-        token.status = user.status;
-      }
+        token.image = user.image ?? "";
 
-      if (token.email) {
         await connectDB();
-        const admin = await Admin.findOne({ email: token.email }).lean<IAdmin>();
+        const admin = await Admin.findOne({ email: user.email }).lean<IAdmin>();
         if (admin) {
           token.role = admin.role;
           token.status = admin.status;
@@ -93,12 +96,15 @@ export const authOptions: NextAuthOptions = {
     },
     async session({ session, token }) {
       if (token && session.user) {
-        session.user.id = token.id as string;
-        session.user.email = token.email as string;
-        session.user.name = token.name as string;
-        session.user.image = token.image as string;
-        session.user.role = token.role as string;
-        session.user.status = token.status as "Active" | "Restricted" | "Banned";;
+        session.user = {
+          ...session.user,
+          id: token.id,
+          email: token.email,
+          name: token.name,
+          image: token.image,
+          role: token.role,
+          status: token.status as "Active" | "Restricted" | "Banned",
+        };
       }
       return session;
     },

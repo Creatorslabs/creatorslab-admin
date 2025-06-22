@@ -1,4 +1,4 @@
-"use client"
+"use client";
 
 import Link from "next/link";
 import { MenuIcon, PanelsTopLeft } from "lucide-react";
@@ -10,12 +10,12 @@ import {
   SheetContent,
   SheetTrigger,
   SheetTitle,
-  SheetDescription
+  SheetDescription,
 } from "@/components/ui/sheet";
 import { Menu } from "./menu";
 import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
-import Image from "next/image"
+import Image from "next/image";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
 export function SheetMenu() {
@@ -30,31 +30,26 @@ export function SheetMenu() {
           <MenuIcon size={20} />
         </Button>
       </SheetTrigger>
-      <SheetContent className="sm:w-72 px-3 h-full flex flex-col bg-card" side="left">
+      <SheetContent
+        className="sm:w-72 px-3 h-full flex flex-col bg-card"
+        side="left"
+      >
         <SheetHeader>
-        <Link
-          href="/"
-          className="flex items-center gap-2 p-4 px-6 text-foreground no-underline my-5"
-        >
-          <Image
-            src="/images/logo.png"
-            width={30}
-            height={30}
-            alt="CreatorsLab logo"
-          />
-          <h1
-            className={cn(
-              "font-bold text-xl"
-            )}
+          <Link
+            href="/"
+            className="flex items-center gap-2 p-4 px-6 text-foreground no-underline my-5"
           >
-            Creatorlab
-          </h1>
-        </Link>
+            <Image
+              src="/images/logo.png"
+              width={30}
+              height={30}
+              alt="CreatorsLab logo"
+            />
+            <h1 className={cn("font-bold text-xl")}>Creatorlab</h1>
+          </Link>
         </SheetHeader>
         <Menu isOpen />
       </SheetContent>
     </Sheet>
   );
 }
-
-

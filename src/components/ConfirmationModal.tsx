@@ -1,8 +1,13 @@
-'use client';
+"use client";
 
-import { Dialog, DialogContent, DialogHeader, DialogTitle } from '@/components/ui/dialog';
-import { Button } from '@/components/ui/button';
-import { cn } from '@/lib/utils';
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { cn } from "@/lib/utils";
 
 interface ConfirmationModalProps {
   isOpen: boolean;
@@ -12,7 +17,7 @@ interface ConfirmationModalProps {
   description?: string;
   confirmText?: string;
   cancelText?: string;
-  variant?: 'default' | 'danger';
+  variant?: "default" | "danger";
   loading?: boolean;
 }
 
@@ -20,11 +25,11 @@ export function ConfirmationModal({
   isOpen,
   onClose,
   onConfirm,
-  title = 'Are you sure?',
-  description = 'This action cannot be undone.',
-  confirmText = 'Confirm',
-  cancelText = 'Cancel',
-  variant = 'danger',
+  title = "Are you sure?",
+  description = "This action cannot be undone.",
+  confirmText = "Confirm",
+  cancelText = "Cancel",
+  variant = "danger",
   loading = false,
 }: ConfirmationModalProps) {
   return (
@@ -51,13 +56,13 @@ export function ConfirmationModal({
             onClick={onConfirm}
             disabled={loading}
             className={cn(
-              'text-white',
-              variant === 'danger'
-                ? 'bg-red-600 hover:bg-red-700'
-                : 'bg-primary hover:bg-secondary'
+              "text-white",
+              variant === "danger"
+                ? "bg-red-600 hover:bg-red-700"
+                : "bg-primary hover:bg-secondary"
             )}
           >
-            {loading ? 'Processing...' : confirmText}
+            {loading ? "Processing..." : confirmText}
           </Button>
         </div>
       </DialogContent>

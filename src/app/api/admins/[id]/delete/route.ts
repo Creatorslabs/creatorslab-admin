@@ -11,9 +11,9 @@ export async function DELETE(
   const session = await getServerSession(authOptions);
   if (!session?.user?.email) {
     return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
-    }
-    
-const { id } = await context.params
+  }
+
+  const { id } = await context.params;
 
   await connectDB();
 

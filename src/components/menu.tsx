@@ -14,6 +14,13 @@ import {
 } from "@/components/ui/tooltip";
 import { getMenuList } from "@/lib/menulist";
 import { useSession } from "next-auth/react";
+import { useEffect, useState } from "react";
+
+export interface MenuItem {
+  href: string;
+  label: string;
+  icon: LucideIcon;
+}
 
 interface MenuProps {
   isOpen: boolean | undefined;
@@ -22,69 +29,66 @@ interface MenuProps {
 export function Menu({ isOpen }: MenuProps) {
   const pathname = usePathname();
   const { data: session } = useSession();
+  const [menuList, setMenuList] = useState<MenuItem[]>([]);
 
-  const role = session?.user?.role;
-
-  const menuList = getMenuList().filter(item => {
-    // Hide /admins route if role is not Super Admin
-    if (item.href === '/admins' && role !== 'Super Admin') {
-      return false;
+  useEffect(() => {
+    const role = session?.user?.role;
+    if (role) {
+      const menuList: MenuItem[] = getMenuList(role);
+      setMenuList(menuList);
     }
-    return true;
-  });
+  }, [session?.user?.role]);
 
   return (
     <nav className="flex flex-col h-full w-full mt-8">
       <ul className="flex flex-col flex-grow items-start space-y-4 px-2">
-        {menuList.map(
-          ({
-            href,
-            label,
-            icon: Icon,
-          }: {
-            href: string;
-            label: string;
-            icon: LucideIcon;
-            }) => {
-              const isActive = pathname === href;
-            return (
-              <li className="w-full" key={href}>
-                <TooltipProvider disableHoverableContent>
-                  <Tooltip delayDuration={100}>
-                    <TooltipTrigger asChild>
-                      <Button
-                        className={cn("w-full justify-start h-10 mb-1 px-4 py-6 rounded-lg bg-transparent border-none text-foreground hover:bg-white/10 shadow-none", {
-                            "bg-white/10 text-foreground": isActive,
-                            "hover:bg-white/5": !isActive,
-                          })}
-                        asChild
-                      >
-                        <Link href={href}>
-                          <span className={cn(isOpen === false ? "" : "mr-4")}>
-                            <Icon size={18} />
-                          </span>
-                          <p
-                            className={cn(
-                              "max-w-[200px] truncate",
-                              isOpen === false
-                                ? "-translate-x-96 opacity-0"
-                                : "translate-x-0 opacity-100"
-                            )}
-                          >
-                            {label}
-                          </p>
-                        </Link>
-                      </Button>
-                    </TooltipTrigger>
-                    {isOpen === false && (
-                      <TooltipContent side="right" className="bg-card text-foreground">{label}</TooltipContent>
-                    )}
-                  </Tooltip>
-                </TooltipProvider>
-              </li>
-            )
-          }
-        )}
+        {menuList.map(({ href, label, icon: Icon }: MenuItem) => {
+          const isActive = pathname === href;
+          return (
+            <li className="w-full" key={href}>
+              <TooltipProvider disableHoverableContent>
+                <Tooltip delayDuration={100}>
+                  <TooltipTrigger asChild>
+                    <Button
+                      className={cn(
+                        "w-full justify-start h-10 mb-1 px-4 py-6 rounded-lg bg-transparent border-none text-foreground hover:bg-white/10 shadow-none",
+                        {
+                          "bg-white/10 text-foreground": isActive,
+                          "hover:bg-white/5": !isActive,
+                        }
+                      )}
+                      asChild
+                    >
+                      <Link href={href}>
+                        <span className={cn(isOpen === false ? "" : "mr-4")}>
+                          <Icon size={18} />
+                        </span>
+                        <p
+                          className={cn(
+                            "max-w-[200px] truncate",
+                            isOpen === false
+                              ? "-translate-x-96 opacity-0"
+                              : "translate-x-0 opacity-100"
+                          )}
+                        >
+                          {label}
+                        </p>
+                      </Link>
+                    </Button>
+                  </TooltipTrigger>
+                  {isOpen === false && (
+                    <TooltipContent
+                      side="right"
+                      className="bg-card text-foreground"
+                    >
+                      {label}
+                    </TooltipContent>
+                  )}
+                </Tooltip>
+              </TooltipProvider>
+            </li>
+          );
+        })}
         <li className="w-full grow flex items-end">
           <TooltipProvider disableHoverableContent>
             <Tooltip delayDuration={100}>
@@ -107,7 +111,12 @@ export function Menu({ isOpen }: MenuProps) {
                 </Button>
               </TooltipTrigger>
               {isOpen === false && (
-                <TooltipContent side="right" className="bg-card text-foreground">Logout</TooltipContent>
+                <TooltipContent
+                  side="right"
+                  className="bg-card text-foreground"
+                >
+                  Logout
+                </TooltipContent>
               )}
             </Tooltip>
           </TooltipProvider>
