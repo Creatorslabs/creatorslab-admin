@@ -22,6 +22,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLoader } from "@/hooks/useLoader";
+import { toast } from "@/hooks/use-toast";
 
 export default function TasksPage() {
   const [tasksData, setTasksData] = useState<Partial<ITask>[]>([]);
@@ -169,10 +170,17 @@ export default function TasksPage() {
         return;
       }
 
-      const { data: newTask } = await res.json();
       fetchTasks();
+      toast({
+        title: "Task Created successfully",
+        variant: "success",
+      });
     } catch (error) {
       console.error("Create task error:", error);
+      toast({
+        title: "Task creation failed",
+        variant: "error",
+      });
     } finally {
       hideLoader();
     }
@@ -188,9 +196,19 @@ export default function TasksPage() {
       });
       if (res.ok) {
         fetchTasks();
+        toast({
+          title: "Update successfull",
+          description: "Task updated successfully.",
+          variant: "success",
+        });
       }
     } catch (err) {
       console.error("Update failed", err);
+      toast({
+        title: "Update failed",
+        description: "Failed to update task.",
+        variant: "error",
+      });
     } finally {
       hideLoader();
     }
@@ -255,8 +273,18 @@ export default function TasksPage() {
       }
 
       fetchTasks();
+      toast({
+        title: "Update successfull",
+        description: "Task status has been updated successfully.",
+        variant: "success",
+      });
     } catch (err) {
       console.error("Error toggling status:", err);
+      toast({
+        title: "Update failed",
+        description: "Failed to update task status.",
+        variant: "error",
+      });
     } finally {
       hideLoader();
     }

@@ -12,6 +12,7 @@ import {
 import { MoreHorizontal, Pencil, Trash } from "lucide-react";
 import { useConfirm } from "@/hooks/useConfirm";
 import { useLoader } from "@/hooks/useLoader";
+import { toast } from "@/hooks/use-toast";
 
 export default function EngagementPage() {
   const [engagements, setEngagements] = useState([]);
@@ -25,8 +26,7 @@ export default function EngagementPage() {
   const [modalMode, setModalMode] = useState<"create" | "edit">("create");
   const [selectedEngagement, setSelectedEngagement] = useState<any | null>(
     null
-  ); 
-  
+  );
 
   const { confirm, ConfirmModal } = useConfirm();
   const { showLoader, hideLoader, LoaderModal } = useLoader();
@@ -102,9 +102,17 @@ export default function EngagementPage() {
       });
       if (res.ok) {
         fetchEngagements();
+        toast({
+          title: "Engagement created successfully",
+          variant: "success",
+        });
       }
     } catch (err) {
       console.error("Create failed", err);
+      toast({
+        title: "Failed to create engagement",
+        variant: "error",
+      });
     } finally {
       hideLoader();
     }
@@ -120,9 +128,17 @@ export default function EngagementPage() {
       });
       if (res.ok) {
         fetchEngagements();
+        toast({
+          title: "Engagement updated successfully",
+          variant: "success",
+        });
       }
     } catch (err) {
       console.error("Update failed", err);
+      toast({
+        title: "Failed to update engagement",
+        variant: "error",
+      });
     } finally {
       hideLoader();
     }
@@ -143,8 +159,16 @@ export default function EngagementPage() {
     try {
       await fetch(`/api/engagements/${engagement._id}`, { method: "DELETE" });
       fetchEngagements();
+      toast({
+        title: "Engagement deleted successfully",
+        variant: "success",
+      });
     } catch (err) {
       console.error("Delete failed", err);
+      toast({
+        title: "Failed to delete engagement",
+        variant: "error",
+      });
     } finally {
       hideLoader();
     }

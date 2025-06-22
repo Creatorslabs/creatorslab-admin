@@ -19,6 +19,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import { useLoader } from "@/hooks/useLoader";
+import { toast } from "@/hooks/use-toast";
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
@@ -211,8 +212,18 @@ export default function UsersPage() {
       }
 
       await fetchUsers();
+      toast({
+        title: "Update successfull",
+        description: "User status has been updated successfully.",
+        variant: "success",
+      });
     } catch (err) {
       console.error("Error toggling user status:", err);
+      toast({
+        title: "Update failed",
+        description: "Failed to update user status",
+        variant: "error",
+      });
     } finally {
       hideLoader();
     }

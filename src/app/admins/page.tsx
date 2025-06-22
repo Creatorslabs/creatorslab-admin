@@ -8,6 +8,7 @@ import { StatCard } from "@/components/stat-card";
 import { capitalize } from "@/lib/helpers/capitalise";
 import { useConfirm } from "@/hooks/useConfirm";
 import { useLoader } from "@/hooks/useLoader";
+import { toast } from "@/hooks/use-toast";
 
 interface Admin {
   id: string;
@@ -144,8 +145,16 @@ export default function AdminPage() {
       }
 
       fetchAdmins();
+      toast({
+        title: "Engagement deleted successfully",
+        variant: "success",
+      });
     } catch (error) {
       console.error("Delete error:", error);
+      toast({
+        title: (error as Error).message,
+        variant: "error",
+      });
     } finally {
       hideLoader();
     }
@@ -198,9 +207,16 @@ export default function AdminPage() {
 
       // Optionally refresh data after success
       fetchAdmins();
-      console.log("Success:", result?.message || "Admin updated");
+      toast({
+        title: "Admin created successfully",
+        variant: "success",
+      });
     } catch (error) {
       console.error("Error submitting admin action:", error);
+      toast({
+        title: (error as Error).message,
+        variant: "error",
+      });
     } finally {
       hideLoader();
     }
