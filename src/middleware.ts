@@ -17,6 +17,21 @@ type UserRole = "Super Admin" | "Admin" | "Moderator" | "Support" | undefined;
 
 export default withAuth(
   function middleware(req) {
+    const { pathname } = req.nextUrl;
+
+    const PUBLIC_PATHS = [
+      "/_next",
+      "/favicon.ico",
+      "/logo.png",
+      "/images",
+      "/fonts",
+      "/api/uploadthing",
+    ];
+
+    if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
+      return NextResponse.next();
+    }
+
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
 
@@ -40,10 +55,9 @@ export default withAuth(
       path.startsWith("/support") &&
       (status === "Active" || status === undefined)
     ) {
-        return NextResponse.redirect(new URL("/403", req.url));
+      return NextResponse.redirect(new URL("/403", req.url));
     }
 
-    // 4. Enforce role-based access
     if (role && roleRouteMap[role]) {
       const allowedPaths = roleRouteMap[role];
       const isAllowed = allowedPaths.some(
@@ -61,8 +75,12 @@ export default withAuth(
   {
     callbacks: {
       authorized: ({ req }) => {
-        // Let API routes go through
-        if (req.nextUrl.pathname.startsWith("/api")) return true;
+        // Allow all API routes to be handled by individual route handlers
+        if (req.nextUrl.pathname.startsWith("/api")) {
+          return true;
+        }
+
+        // Let middleware handle auth logic
         return true;
       },
     },
@@ -70,5 +88,5 @@ export default withAuth(
 );
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|auth|api/public).*)"],
+  matcher: ["/((?!_next/static|_next/image|favicon.ico|public|$|^$).*)"],
 };
