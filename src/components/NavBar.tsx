@@ -36,7 +36,7 @@ export function AdminNavbar() {
         "sticky top-0 z-10 w-full flex items-center justify-between px-4 md:px-6 h-14 md:h-16",
 
         // Mobile styles: keep shadow and background effects
-        "shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-background/95 border-b border-border shadow",
+        "shadow backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-background/95 border-b border-border",
 
         // Desktop (lg and up): remove shadows and borders, add padding top
         "backdrop-blur supports-[backdrop-filter]:bg-background/60 bg-background/95 lg:shadow-none lg:dark:shadow-none lg:border-none lg:backdrop-blur-0 lg:bg-transparent lg:pt-16"
