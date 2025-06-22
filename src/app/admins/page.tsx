@@ -263,6 +263,7 @@ export default function AdminPage() {
         mode={modalMode}
       />
       <ConfirmModal />
+      <LoaderModal />
     </div>
   );
 }

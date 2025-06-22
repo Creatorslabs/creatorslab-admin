@@ -22,6 +22,7 @@ export default withAuth(
 
     const publicFile = /\.(.*)$/.test(path);
     const isNextStatic = path.startsWith("/_next/");
+    const isAuthPage = path.startsWith("/auth");
 
     if (
       publicFile ||
@@ -35,6 +36,13 @@ export default withAuth(
     const isAuth = !!token;
     const role = token?.role as UserRole;
     const status = token?.status as UserStatus;
+
+    if (isAuthPage) {
+      if (isAuth) {
+        return NextResponse.redirect(new URL("/dashboard", req.url));
+      }
+      return null;
+    }
 
     if (!isAuth) {
       return NextResponse.redirect(new URL("/auth/signin", req.url));
