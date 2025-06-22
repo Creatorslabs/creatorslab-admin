@@ -17,21 +17,6 @@ type UserRole = "Super Admin" | "Admin" | "Moderator" | "Support" | undefined;
 
 export default withAuth(
   function middleware(req) {
-    const { pathname } = req.nextUrl;
-
-    const PUBLIC_PATHS = [
-      "/_next",
-      "/favicon.ico",
-      "/logo.png",
-      "/images",
-      "/fonts",
-      "/api/uploadthing",
-    ];
-
-    if (PUBLIC_PATHS.some((p) => pathname.startsWith(p))) {
-      return NextResponse.next();
-    }
-
     const token = req.nextauth.token;
     const path = req.nextUrl.pathname;
 
@@ -39,11 +24,11 @@ export default withAuth(
     const role = token?.role as UserRole;
     const status = token?.status as UserStatus;
 
-    // 1. Not authenticated → redirect to login
     if (!isAuth) {
       return NextResponse.redirect(new URL("/auth/signin", req.url));
     }
 
+    // Redirect restricted or banned users unless they are on /support
     if (status === "Restricted" || status === "Banned") {
       if (!path.startsWith("/support")) {
         return NextResponse.redirect(new URL("/support", req.url));
@@ -51,6 +36,7 @@ export default withAuth(
       return null;
     }
 
+    // Prevent active or undefined-status users from accessing /support
     if (
       path.startsWith("/support") &&
       (status === "Active" || status === undefined)
@@ -58,8 +44,22 @@ export default withAuth(
       return NextResponse.redirect(new URL("/403", req.url));
     }
 
+    // Enforce role-based access only on protected paths
     if (role && roleRouteMap[role]) {
       const allowedPaths = roleRouteMap[role];
+
+      // If the path is in the restricted list, check if role is allowed
+      const isProtected = allowedPaths.some(
+        (allowedPath) =>
+          path === allowedPath || path.startsWith(`${allowedPath}/`)
+      );
+
+      if (!isProtected) {
+        // Let it through since it's not in any protected path
+        return null;
+      }
+
+      // If it *is* protected but the user role doesn't have it, redirect
       const isAllowed = allowedPaths.some(
         (allowedPath) =>
           path === allowedPath || path.startsWith(`${allowedPath}/`)
@@ -80,13 +80,15 @@ export default withAuth(
           return true;
         }
 
-        // Let middleware handle auth logic
-        return true;
+        return true; // Let middleware handle everything else
       },
     },
   }
 );
 
 export const config = {
-  matcher: ["/((?!_next/static|_next/image|favicon.ico|public|$|^$).*)"],
+  matcher: [
+    "/((?!_next/static|_next/image|favicon.ico|auth/signin|auth/callback|public|^$).*)",
+  ],
 };
+

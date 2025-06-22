@@ -33,7 +33,7 @@ export default function AppLayout({ children }: { children: React.ReactNode }) {
       <SidebarLayout />
       <main
         className={cn(
-          "flex-1 h-full overflow-auto bg-card transition-[margin-left] ease-in-out duration-300",
+          "flex-1 h-full overflow-auto bg-background transition-[margin-left] ease-in-out duration-300",
           !settings.disabled && (!getOpenState() ? "lg:ml-[90px]" : "lg:ml-72")
         )}
       >

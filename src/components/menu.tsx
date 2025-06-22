@@ -13,7 +13,7 @@ import {
   TooltipProvider,
 } from "@/components/ui/tooltip";
 import { getMenuList } from "@/lib/menulist";
-import { useSession } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 import { useEffect, useState } from "react";
 
 export interface MenuItem {
@@ -94,7 +94,7 @@ export function Menu({ isOpen }: MenuProps) {
             <Tooltip delayDuration={100}>
               <TooltipTrigger asChild>
                 <Button
-                  onClick={() => {}}
+                  onClick={() => signOut()}
                   className="w-full justify-center h-10 mt-5 px-4 py-6 rounded-lg bg-card/10 hover:bg-white/5 text-foreground shadow-none"
                 >
                   <span className={cn(isOpen === false ? "" : "mr-4")}>
