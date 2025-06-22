@@ -18,6 +18,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useLoader } from "@/hooks/useLoader";
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
@@ -36,6 +37,7 @@ export default function UsersPage() {
   });
   const [selectedTask, setSelectedTask] = useState<any>(null);
   const { confirm, ConfirmModal } = useConfirm();
+  const { LoaderModal, showLoader, hideLoader } = useLoader();
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const usersColumns = [
@@ -153,12 +155,19 @@ export default function UsersPage() {
   ];
 
   const fetchUsers = async (page = 1) => {
-    const res = await fetch(`/api/users?page=${page}&limit=10`);
-    const json = await res.json();
-    if (json.success) {
-      setUsers(json.data.users);
-      setStats(json.data.stats);
-      setPagination(json.data.pagination);
+    showLoader({ message: "Loading users..." });
+    try {
+      const res = await fetch(`/api/users?page=${page}&limit=10`);
+      const json = await res.json();
+      if (json.success) {
+        setUsers(json.data.users);
+        setStats(json.data.stats);
+        setPagination(json.data.pagination);
+      }
+    } catch (error) {
+      console.error("Fetch users failed:", error);
+    } finally {
+      hideLoader();
     }
   };
 
@@ -186,6 +195,10 @@ export default function UsersPage() {
 
     if (!confirmed) return;
 
+    showLoader({
+      message: isActive ? "Deactivating user..." : "Activating user...",
+    });
+
     try {
       const res = await fetch(`/api/users/${user._id}/toggle-status`, {
         method: "PATCH",
@@ -197,9 +210,11 @@ export default function UsersPage() {
         return;
       }
 
-      fetchUsers?.();
+      await fetchUsers();
     } catch (err) {
       console.error("Error toggling user status:", err);
+    } finally {
+      hideLoader();
     }
   };
 
@@ -236,6 +251,7 @@ export default function UsersPage() {
         pagination={{ ...pagination, onPageChange: (page) => fetchUsers(page) }}
       />
       <ConfirmModal />
+      <LoaderModal />
     </div>
   );
 }

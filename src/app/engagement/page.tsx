@@ -11,10 +11,10 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { MoreHorizontal, Pencil, Trash } from "lucide-react";
 import { useConfirm } from "@/hooks/useConfirm";
+import { useLoader } from "@/hooks/useLoader";
 
 export default function EngagementPage() {
   const [engagements, setEngagements] = useState([]);
-  const [loading, setLoading] = useState(true);
   const [pagination, setPagination] = useState({
     page: 1,
     pages: 1,
@@ -25,11 +25,14 @@ export default function EngagementPage() {
   const [modalMode, setModalMode] = useState<"create" | "edit">("create");
   const [selectedEngagement, setSelectedEngagement] = useState<any | null>(
     null
-  );
+  ); 
+  
+
   const { confirm, ConfirmModal } = useConfirm();
+  const { showLoader, hideLoader, LoaderModal } = useLoader();
 
   const fetchEngagements = async (page = 1) => {
-    setLoading(true);
+    showLoader({ message: "Loading engagement types..." });
     try {
       const res = await fetch(`/api/engagements?page=${page}`);
       const json = await res.json();
@@ -41,7 +44,7 @@ export default function EngagementPage() {
     } catch (err) {
       console.error("Failed to fetch engagements", err);
     } finally {
-      setLoading(false);
+      hideLoader();
     }
   };
 
@@ -90,6 +93,7 @@ export default function EngagementPage() {
   };
 
   const createEngagement = async (data: any) => {
+    showLoader({ message: "Creating engagement type..." });
     try {
       const res = await fetch("/api/engagements", {
         method: "POST",
@@ -101,10 +105,13 @@ export default function EngagementPage() {
       }
     } catch (err) {
       console.error("Create failed", err);
+    } finally {
+      hideLoader();
     }
   };
 
   const updateEngagement = async (id: string, data: any) => {
+    showLoader({ message: "Updating engagement..." });
     try {
       const res = await fetch(`/api/engagements/${id}`, {
         method: "PUT",
@@ -116,6 +123,8 @@ export default function EngagementPage() {
       }
     } catch (err) {
       console.error("Update failed", err);
+    } finally {
+      hideLoader();
     }
   };
 
@@ -130,11 +139,14 @@ export default function EngagementPage() {
 
     if (!confirmed) return;
 
+    showLoader({ message: "Deleting engagement..." });
     try {
       await fetch(`/api/engagements/${engagement._id}`, { method: "DELETE" });
       fetchEngagements();
     } catch (err) {
       console.error("Delete failed", err);
+    } finally {
+      hideLoader();
     }
   };
 
@@ -180,6 +192,7 @@ export default function EngagementPage() {
       />
 
       <ConfirmModal />
+      <LoaderModal />
     </div>
   );
 }

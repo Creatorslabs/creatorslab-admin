@@ -21,6 +21,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import { useLoader } from "@/hooks/useLoader";
 
 export default function TasksPage() {
   const [tasksData, setTasksData] = useState<Partial<ITask>[]>([]);
@@ -51,6 +52,7 @@ export default function TasksPage() {
   const [modalMode, setModalMode] = useState<"create" | "edit" | null>(null);
   const [selectedTask, setSelectedTask] = useState<any>(null);
   const { confirm, ConfirmModal } = useConfirm();
+  const { showLoader, hideLoader, LoaderModal } = useLoader();
 
   const tasksColumns = [
     { key: "title", header: "Title" },
@@ -114,7 +116,7 @@ export default function TasksPage() {
   ];
 
   const fetchTasks = async (page = 1) => {
-    setLoading(true);
+    showLoader({ message: "Loading tasks..." });
     try {
       const res = await fetch(
         `/api/tasks?page=${page}&limit=${pagination.limit}`
@@ -130,7 +132,7 @@ export default function TasksPage() {
     } catch (err) {
       console.error("Failed to fetch tasks:", err);
     } finally {
-      setLoading(false);
+      hideLoader();
     }
   };
 
@@ -152,12 +154,12 @@ export default function TasksPage() {
       status: "active",
     };
 
+    showLoader({ message: "Creating task..." });
+
     try {
       const res = await fetch("/api/tasks", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
       });
 
@@ -168,25 +170,29 @@ export default function TasksPage() {
       }
 
       const { data: newTask } = await res.json();
-
       fetchTasks();
     } catch (error) {
       console.error("Create task error:", error);
+    } finally {
+      hideLoader();
     }
   };
 
   const updateTask = async (id: string, data: any) => {
+    showLoader({ message: "Updating task..." });
     try {
       const res = await fetch(`/api/task/${id}`, {
         method: "PUT",
-        body: JSON.stringify(data),
         headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(data),
       });
       if (res.ok) {
         fetchTasks();
       }
     } catch (err) {
       console.error("Update failed", err);
+    } finally {
+      hideLoader();
     }
   };
 
@@ -233,6 +239,10 @@ export default function TasksPage() {
 
     if (!confirmed) return;
 
+    showLoader({
+      message: isActive ? "Deactivating Task..." : "Activating Task...",
+    });
+
     try {
       const res = await fetch(`/api/tasks/${engagement._id}/active-inactive`, {
         method: "PATCH",
@@ -247,6 +257,8 @@ export default function TasksPage() {
       fetchTasks();
     } catch (err) {
       console.error("Error toggling status:", err);
+    } finally {
+      hideLoader();
     }
   };
 
@@ -270,14 +282,12 @@ export default function TasksPage() {
 
   return (
     <div className="space-y-6">
-      {/* Stats Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
         {statsData.map((stat, index) => (
           <StatCard key={index} {...stat} />
         ))}
       </div>
 
-      {/* Tasks Table */}
       <DataTable
         title={`Tasks (${stats.totalTasks.toLocaleString()})`}
         columns={tasksColumns}
@@ -305,6 +315,7 @@ export default function TasksPage() {
         engagementOptions={engagementOptions}
       />
       <ConfirmModal />
+      <LoaderModal />
     </div>
   );
 }

@@ -5,9 +5,9 @@ import { Shield, UserCheck, UserX, Users } from "lucide-react";
 import { AdminFormModal } from "@/components/admin/admin-form-modal";
 import { AdminDataTable } from "@/components/admin/admin-data-table";
 import { StatCard } from "@/components/stat-card";
-import { usePageLoader } from "@/hooks/usePageLoader";
 import { capitalize } from "@/lib/helpers/capitalise";
 import { useConfirm } from "@/hooks/useConfirm";
+import { useLoader } from "@/hooks/useLoader";
 
 interface Admin {
   id: string;
@@ -37,20 +37,16 @@ export default function AdminPage() {
   const [modalMode, setModalMode] = useState<
     "add" | "edit" | "restrict" | "ban" | "unrestrict" | "unban" | "delete"
   >("add");
-  const [confirmOpen, setConfirmOpen] = useState(false);
-  const [adminToDelete, setAdminToDelete] = useState<Admin | null>(null);
-
-  const [error, setError] = useState<string | null>(null);
 
   const [totalAdmins, setTotalAdmins] = useState(0);
   const [activeAdmins, setActiveAdmins] = useState(0);
   const [restrictedAdmins, setRestrictedAdmins] = useState(0);
   const [bannedAdmins, setBannedAdmins] = useState(0);
 
-  const { showLoading, hideLoading } = usePageLoader();
+  const { showLoader, hideLoader, LoaderModal } = useLoader();
 
   const fetchAdmins = async (page = pagination.page, limit = 10) => {
-    setError(null);
+    showLoader({ message: "Loading admins..." });
     try {
       const res = await fetch(`/api/admins?page=${page}&limit=${limit}`);
       const json = await res.json();
@@ -66,7 +62,9 @@ export default function AdminPage() {
       setRestrictedAdmins(metrics.restricted);
       setBannedAdmins(metrics.banned);
     } catch (err: any) {
-      setError(err.message);
+      console.error("Error fetching admins:", err);
+    } finally {
+      hideLoader();
     }
   };
 
@@ -132,6 +130,8 @@ export default function AdminPage() {
 
     if (!confirmed) return;
 
+    showLoader({ message: `Deleting ${admin.name}...` });
+
     try {
       const res = await fetch(`/api/admins/${admin.id}/delete`, {
         method: "DELETE",
@@ -146,12 +146,16 @@ export default function AdminPage() {
       fetchAdmins();
     } catch (error) {
       console.error("Delete error:", error);
+    } finally {
+      hideLoader();
     }
   };
 
   const handleSubmitAdmin = async (adminData: Partial<Admin>) => {
     if (!selectedAdmin && modalMode !== "add") return;
-    showLoading(`${capitalize(modalMode)} admin...`);
+    showLoader({
+      message: modalMode === "add" ? "Adding admin..." : "Updating admin...",
+    });
 
     try {
       let response;
@@ -198,7 +202,7 @@ export default function AdminPage() {
     } catch (error) {
       console.error("Error submitting admin action:", error);
     } finally {
-      hideLoading();
+      hideLoader();
     }
   };
 
