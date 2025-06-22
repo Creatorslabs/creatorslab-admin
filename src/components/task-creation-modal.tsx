@@ -587,10 +587,15 @@ export function MultiStepTaskModal({
               {imagePreview && (
                 <div className="flex items-center space-x-3">
                   <span className="text-gray-400 text-sm w-24">Image:</span>
-                  <img
+                  <Image
+                    width={25}
+                    height={25}
                     src={imagePreview}
-                    alt="Task thumbnail"
-                    className="w-16 h-16 object-cover rounded-lg"
+                    quality={75}
+                    alt="Image preview"
+                    loader={({ src, width, quality }) =>
+                      `${src}?w=${width}&q=${quality || 75}`
+                    }
                   />
                 </div>
               )}
