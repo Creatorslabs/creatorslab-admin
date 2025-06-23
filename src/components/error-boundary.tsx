@@ -71,7 +71,7 @@ function DefaultErrorFallback({
   resetError,
 }: DefaultErrorFallbackProps) {
   return (
-    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-gray-950 flex items-center justify-center p-4 w-full">
       <div className="max-w-2xl mx-auto text-center">
         {/* Logo */}
         <div className="flex items-center justify-center mb-12">
@@ -82,7 +82,7 @@ function DefaultErrorFallback({
               height={30}
               alt="CreatorsLab logo"
             />
-            <span className="text-white text-2xl font-semibold">
+            <span className="text-foreground text-2xl font-semibold">
               creatorslab
             </span>
           </div>
@@ -92,7 +92,7 @@ function DefaultErrorFallback({
         <div className="flex items-center justify-center mb-8">
           <div className="relative">
             <div className="w-24 h-24 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center animate-pulse">
-              <AlertTriangle className="w-12 h-12 text-white" />
+              <AlertTriangle className="w-12 h-12 text-foreground" />
             </div>
             <div className="absolute inset-0 w-24 h-24 bg-red-500/20 rounded-full blur-xl animate-ping"></div>
           </div>
@@ -100,7 +100,7 @@ function DefaultErrorFallback({
 
         {/* Content */}
         <div className="space-y-6 mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Something went wrong
           </h1>
           <p className="text-gray-400 text-lg md:text-xl max-w-lg mx-auto leading-relaxed">
@@ -121,7 +121,7 @@ function DefaultErrorFallback({
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Button
             onClick={resetError}
-            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 flex items-center space-x-2"
+            className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-foreground px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 flex items-center space-x-2"
           >
             <RefreshCw className="w-5 h-5" />
             <span>Try Again</span>
@@ -130,7 +130,7 @@ function DefaultErrorFallback({
           <Link href="/dashboard">
             <Button
               variant="outline"
-              className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
+              className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-foreground px-8 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
             >
               <Home className="w-5 h-5" />
               <span>Go to Dashboard</span>

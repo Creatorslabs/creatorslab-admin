@@ -59,7 +59,7 @@ export function DataTable({
       );
     }
 
-    if (key === "type" && Array.isArray(value)) {
+    if ((key === "type" || key === "engagementType") && Array.isArray(value)) {
       return value.map((type, index) => (
         <span key={index} className="text-sm font-medium text-blue-400 mr-1">
           {type}

@@ -257,7 +257,7 @@ export function MultiStepTaskModal({
   }) => (
     <div className="flex items-start space-x-3">
       <span className="text-gray-400 text-sm w-24">{label}:</span>
-      <span className={`text-white text-sm ${multiline ? "max-w-md" : ""}`}>
+      <span className={`text-foreground text-sm ${multiline ? "max-w-md" : ""}`}>
         {value}
       </span>
     </div>
@@ -269,7 +269,7 @@ export function MultiStepTaskModal({
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <h3 className="text-lg font-semibold text-white mb-2">
+              <h3 className="text-lg font-semibold text-foreground mb-2">
                 Let&apos;s create your task
               </h3>
               <p className="text-gray-400 text-sm">
@@ -298,7 +298,7 @@ export function MultiStepTaskModal({
                   />
                   <button
                     onClick={removeImage}
-                    className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-white rounded-full p-1 transition-colors"
+                    className="absolute top-2 right-2 bg-red-500 hover:bg-red-600 text-foreground rounded-full p-1 transition-colors"
                   >
                     <X className="h-4 w-4" />
                   </button>
@@ -344,7 +344,7 @@ export function MultiStepTaskModal({
                 placeholder="Enter the title of your task"
                 value={formData.title}
                 onChange={(e) => handleInputChange("title", e.target.value)}
-                className="bg-card-box border-border text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
+                className="bg-card-box border-border text-foreground placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
               />
             </div>
           </div>
@@ -354,7 +354,7 @@ export function MultiStepTaskModal({
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <h3 className="text-lg font-semibold text-white mb-2">
+              <h3 className="text-lg font-semibold text-foreground mb-2">
                 Platform & Engagement
               </h3>
               <p className="text-gray-400 text-sm">
@@ -369,7 +369,7 @@ export function MultiStepTaskModal({
                 value={formData.platform}
                 onValueChange={(value) => handleInputChange("platform", value)}
               >
-                <SelectTrigger className="bg-card-box border-border text-white focus:border-purple-500 focus:ring-purple-500">
+                <SelectTrigger className="bg-card-box border-border text-foreground focus:border-purple-500 focus:ring-purple-500">
                   <SelectValue placeholder="Select platform" />
                 </SelectTrigger>
                 <SelectContent className="bg-card-box border-border">
@@ -377,7 +377,7 @@ export function MultiStepTaskModal({
                     <SelectItem
                       key={platform.value}
                       value={platform.value}
-                      className="text-white hover:bg-border"
+                      className="text-foreground hover:bg-border"
                     >
                       {platform.label}
                     </SelectItem>
@@ -386,7 +386,7 @@ export function MultiStepTaskModal({
               </Select>
 
               {formData.platform && (
-                <Badge variant="secondary" className="bg-purple-600 text-white">
+                <Badge variant="secondary" className="bg-purple-600 text-foreground">
                   {
                     socialPlatforms.find((p) => p.value === formData.platform)
                       ?.label
@@ -437,7 +437,7 @@ export function MultiStepTaskModal({
                       <Badge
                         key={engagement}
                         variant="secondary"
-                        className="bg-purple-600 text-white"
+                        className="bg-purple-600 text-foreground"
                       >
                         {engagement}
                         <button
@@ -459,7 +459,7 @@ export function MultiStepTaskModal({
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <h3 className="text-lg font-semibold text-white mb-2">
+              <h3 className="text-lg font-semibold text-foreground mb-2">
                 Rewards & Target
               </h3>
               <p className="text-gray-400 text-sm">
@@ -477,7 +477,7 @@ export function MultiStepTaskModal({
                 placeholder="e.g. twitter.com/yourprofile"
                 value={formData.target}
                 onChange={(e) => handleInputChange("target", e.target.value)}
-                className="bg-card-box border-border text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
+                className="bg-card-box border-border text-foreground placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
               />
             </div>
 
@@ -497,7 +497,7 @@ export function MultiStepTaskModal({
                     parseInt(e.target.value || "0")
                   )
                 }
-                className="bg-card-box border-border text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
+                className="bg-card-box border-border text-foreground placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
               />
             </div>
 
@@ -520,7 +520,7 @@ export function MultiStepTaskModal({
                     parseInt(e.target.value || "0")
                   )
                 }
-                className="bg-card-box border-border text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
+                className="bg-card-box border-border text-foreground placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
               />
             </div>
           </div>
@@ -529,7 +529,7 @@ export function MultiStepTaskModal({
         return (
           <div className="space-y-6">
             <div className="text-center mb-6">
-              <h3 className="text-lg font-semibold text-white mb-2">
+              <h3 className="text-lg font-semibold text-foreground mb-2">
                 Details & Requirements
               </h3>
               <p className="text-gray-400 text-sm">
@@ -548,7 +548,7 @@ export function MultiStepTaskModal({
                 onChange={(e) =>
                   handleInputChange("expiration", e.target.value)
                 }
-                className="bg-card-box border-border text-white focus:border-purple-500 focus:ring-purple-500"
+                className="bg-card-box border-border text-foreground focus:border-purple-500 focus:ring-purple-500"
               />
             </div>
 
@@ -564,7 +564,7 @@ export function MultiStepTaskModal({
                 onChange={(e) =>
                   handleInputChange("description", e.target.value)
                 }
-                className="bg-card-box border-border text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500 min-h-[100px]"
+                className="bg-card-box border-border text-foreground placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500 min-h-[100px]"
               />
             </div>
           </div>
@@ -575,7 +575,7 @@ export function MultiStepTaskModal({
           <div className="space-y-6">
             <div className="text-center mb-6">
               <CheckCircle className="h-16 w-16 text-green-500 mx-auto mb-4" />
-              <h3 className="text-lg font-semibold text-white mb-2">
+              <h3 className="text-lg font-semibold text-foreground mb-2">
                 Review & Confirm
               </h3>
               <p className="text-gray-400 text-sm">
@@ -652,7 +652,7 @@ export function MultiStepTaskModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
-      <DialogContent className="bg-card-box border-border text-white max-w-md mx-auto max-h-[90vh] overflow-y-auto">
+      <DialogContent className="bg-card-box border-border text-foreground max-w-md mx-auto max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle className="text-center">
             {stepTitles[currentStep - 1]}
@@ -693,7 +693,7 @@ export function MultiStepTaskModal({
           <Button
             onClick={currentStep === totalSteps ? handleSubmit : nextStep}
             disabled={!validateStep(currentStep)}
-            className="bg-purple-600 hover:bg-purple-700 text-white disabled:opacity-50 disabled:cursor-not-allowed"
+            className="bg-purple-600 hover:bg-purple-700 text-foreground disabled:opacity-50 disabled:cursor-not-allowed"
           >
             {currentStep === totalSteps ? (
               <>

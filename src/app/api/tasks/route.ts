@@ -4,7 +4,6 @@ import { authOptions } from "@/lib/utils/authOptions";
 import connectDB from "@/lib/connectDB";
 import { Admin, IAdmin } from "@/lib/models/Admin";
 import { Task } from "@/lib/models/Task";
-import { Engagement } from "@/lib/models/Engagement";
 import { Participation } from "@/lib/models/Participation";
 
 const PAGE_LIMIT = 20;
@@ -18,66 +17,52 @@ export async function GET(request: Request) {
 
     await connectDB();
 
-    const adminUser = await Admin.findOne({
-      email: session.user.email,
-    }).lean<IAdmin>();
+    const adminUser = await Admin.findOne({ email: session.user.email })
+      .select("role")
+      .lean<{ role: string }>();
     if (!adminUser || adminUser.role === "Support") {
-      return NextResponse.json(
-        { error: "Insufficient role access" },
-        { status: 403 }
-      );
+      return NextResponse.json({ error: "Insufficient role access" }, { status: 403 });
     }
 
     const { searchParams } = new URL(request.url);
     const page = parseInt(searchParams.get("page") || "1", 10);
-    const limit = parseInt(
-      searchParams.get("limit") || PAGE_LIMIT.toString(),
-      10
-    );
+    const limit = parseInt(searchParams.get("limit") || PAGE_LIMIT.toString(), 10);
     const skip = (page - 1) * limit;
 
-    const [tasks, total, completed, engagements, pending] = await Promise.all([
-      Task.find({}).skip(skip).limit(limit).sort({ createdAt: -1 }).lean(),
+    const [tasks, total, completed, pending, participations] = await Promise.all([
+      Task.find({})
+        .skip(skip)
+        .limit(limit)
+        .sort({ createdAt: -1 })
+        .select("-__v")
+        .populate("creator", "username")
+        .lean(),
       Task.countDocuments(),
       Participation.countDocuments({ status: "completed" }),
-      Engagement.find({ status: "Active" }).lean(),
       Participation.countDocuments({ status: "pending" }),
+      Participation.find({})
+        .select("taskId userId status proof")
+        .lean(),
     ]);
 
-    const pages = Math.ceil(total / limit);
+    // Group participations by taskId
+    const participationMap: Record<string, typeof participations> = {};
+    for (const part of participations) {
+      const key = part.taskId.toString();
+      if (!participationMap[key]) participationMap[key] = [];
+      participationMap[key].push(part);
+    }
 
-    // Construct socialPlatforms and engagementOptions
-    const uniquePlatforms = new Map<string, string[]>();
-    engagements.forEach((engagement) => {
-      const platform = engagement.socialPlatform;
-      const types = engagement.engagementType || [];
-
-      if (!uniquePlatforms.has(platform)) {
-        uniquePlatforms.set(platform, []);
-      }
-
-      const current = uniquePlatforms.get(platform) || [];
-      uniquePlatforms.set(
-        platform,
-        Array.from(new Set([...current, ...types]))
-      );
-    });
-
-    const socialPlatforms = Array.from(uniquePlatforms.keys()).map(
-      (platform) => ({
-        value: platform,
-        label: platform.charAt(0).toUpperCase() + platform.slice(1),
-      })
-    );
-
-    const engagementOptions: Record<string, string[]> = {};
-    uniquePlatforms.forEach((types, platform) => {
-      engagementOptions[platform] = types;
-    });
+    // Add participants to each task
+    const taskRemap = tasks.map((task) => ({
+      ...task,
+      creator: task.creator?.username || "Unknown",
+      participants: participationMap[(task._id as string).toString()] || [],
+    }));
 
     return NextResponse.json({
       success: true,
-      data: tasks,
+      data: taskRemap,
       stats: {
         totalTasks: total,
         completedTasks: completed,
@@ -87,19 +72,14 @@ export async function GET(request: Request) {
         page,
         limit,
         total,
-        pages,
-        hasNext: page < pages,
+        pages: Math.ceil(total / limit),
+        hasNext: page < Math.ceil(total / limit),
         hasPrev: page > 1,
       },
-      socialPlatforms,
-      engagementOptions,
     });
-  } catch (err) {
-    console.error("GET /api/tasks error:", err);
-    return NextResponse.json(
-      { error: "Internal Server Error" },
-      { status: 500 }
-    );
+  } catch (error) {
+    console.error("GET /api/tasks error:", error);
+    return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
 

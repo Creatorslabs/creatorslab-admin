@@ -62,6 +62,7 @@ export async function GET(req: NextRequest) {
     };
 
     const pages = Math.ceil(total / limit);
+    
 
     const formattedAdmins = admins.map((admin) => ({
       id: admin._id,

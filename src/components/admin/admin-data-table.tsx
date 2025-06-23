@@ -76,7 +76,7 @@ export function AdminDataTable({
 
     return (
       <Badge
-        className={`${variants[status as keyof typeof variants]} text-white`}
+        className={`${variants[status as keyof typeof variants]} text-foreground`}
       >
         {status}
       </Badge>
@@ -93,7 +93,7 @@ export function AdminDataTable({
 
     return (
       <Badge
-        className={`${variants[role as keyof typeof variants]} text-white`}
+        className={`${variants[role as keyof typeof variants]} text-foreground`}
       >
         {role}
       </Badge>
@@ -193,7 +193,7 @@ export function AdminDataTable({
                     { "bg-card/40": !(index % 2) }
                   )}
                 >
-                  <td className="p-4 font-medium text-white">{admin.name}</td>
+                  <td className="p-4 font-medium text-foreground">{admin.name}</td>
                   <td className="p-4 text-gray-300">{admin.email}</td>
                   <td className="p-4">{getRoleBadge(admin.role)}</td>
                   <td className="p-4">
@@ -226,7 +226,7 @@ export function AdminDataTable({
                       <DropdownMenuTrigger asChild>
                         <Button
                           variant="ghost"
-                          className="h-8 w-8 p-0 text-gray-400 hover:text-white hover:bg-card"
+                          className="h-8 w-8 p-0 text-gray-400 hover:text-foreground hover:bg-card"
                         >
                           <MoreHorizontal className="h-4 w-4" />
                         </Button>
@@ -237,7 +237,7 @@ export function AdminDataTable({
                       >
                         <DropdownMenuItem
                           onClick={() => onEdit(admin)}
-                          className="cursor-pointer text-gray-300 hover:text-white hover:bg-gray-700"
+                          className="cursor-pointer text-gray-300 hover:text-foreground hover:bg-gray-700"
                         >
                           <Edit className="mr-2 h-4 w-4" />
                           Edit

@@ -72,8 +72,12 @@ export default {
   		fontFamily: {
   			inter: 'inter',
   			syne: 'syne'
+			},
+			animation: {
+				'spin-slow': 'spin 2s linear infinite',
+				'spin-fast': 'spin 500ms linear infinite',
+			  },
   		}
-  	}
-  },
+  	},
   plugins: [require("tailwindcss-animate")],
 } satisfies Config;

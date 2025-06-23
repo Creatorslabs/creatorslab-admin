@@ -18,7 +18,7 @@ export default function NotFound() {
               height={30}
               alt="CreatorsLab logo"
             />
-            <span className="text-white text-2xl font-semibold">creatorslab</span>
+            <span className="text-foreground text-2xl font-semibold">creatorslab</span>
           </div>
         </div>
 
@@ -34,7 +34,7 @@ export default function NotFound() {
 
         {/* Message */}
         <div className="space-y-6 mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-white">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground">
             Page Not Found
           </h1>
           <p className="text-gray-400 text-lg md:text-xl max-w-md mx-auto leading-relaxed">
@@ -45,7 +45,7 @@ export default function NotFound() {
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-12">
           <Link href="/">
-            <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 flex items-center space-x-2">
+            <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-foreground px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 flex items-center space-x-2">
               <Home className="w-5 h-5" />
               <span>Go to Dashboard</span>
             </Button>
@@ -54,7 +54,7 @@ export default function NotFound() {
           <Button
             variant="outline"
             onClick={() => window.history.back()}
-            className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
+            className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-foreground px-8 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
           >
             <ArrowLeft className="w-5 h-5" />
             <span>Go Back</span>

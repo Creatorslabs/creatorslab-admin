@@ -69,7 +69,7 @@ export default function EngagementPage() {
           </DropdownMenuTrigger>
           <DropdownMenuContent align="end" className="bg-card border-border">
             <DropdownMenuItem
-              className="hover:cursor-pointer text-gray-300 hover:text-white hover:bg-gray-700"
+              className="hover:cursor-pointer text-gray-300 hover:text-foreground hover:bg-gray-700"
               onClick={() => handleEdit(engagement)}
             >
               <Pencil className="mr-2 h-4 w-4" />

@@ -90,9 +90,9 @@ export function EngagementCreationModal({
 
   return (
     <Dialog open={isOpen} onOpenChange={onClose}>
-      <DialogContent className="bg-gray-900 border-gray-700 text-white max-w-md mx-auto">
+      <DialogContent className="bg-gray-900 border-gray-700 text-foreground max-w-md mx-auto">
         <DialogHeader>
-          <DialogTitle className="text-xl font-semibold text-white">
+          <DialogTitle className="text-xl font-semibold text-foreground">
             Create engagement type
           </DialogTitle>
         </DialogHeader>
@@ -102,7 +102,7 @@ export function EngagementCreationModal({
           <div>
             <Label
               htmlFor="engagementName"
-              className="text-white text-sm font-medium"
+              className="text-foreground text-sm font-medium"
             >
               Engagement Name
             </Label>
@@ -113,7 +113,7 @@ export function EngagementCreationModal({
               onChange={(e) =>
                 handleInputChange("engagementName", e.target.value)
               }
-              className="mt-2 bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
+              className="mt-2 bg-gray-800 border-gray-600 text-foreground placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
               required
             />
           </div>
@@ -122,7 +122,7 @@ export function EngagementCreationModal({
           <div>
             <Label
               htmlFor="engagementType"
-              className="text-white text-sm font-medium"
+              className="text-foreground text-sm font-medium"
             >
               Engagement Type
             </Label>
@@ -133,14 +133,14 @@ export function EngagementCreationModal({
               onChange={(e) =>
                 handleInputChange("engagementType", e.target.value)
               }
-              className="mt-2 bg-gray-800 border-gray-600 text-white placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
+              className="mt-2 bg-gray-800 border-gray-600 text-foreground placeholder-gray-400 focus:border-purple-500 focus:ring-purple-500"
               required
             />
           </div>
 
           {/* Engagement Options */}
           <div>
-            <Label className="text-white text-sm font-medium mb-3 block">
+            <Label className="text-foreground text-sm font-medium mb-3 block">
               Select Engagement Type
             </Label>
 
@@ -160,7 +160,7 @@ export function EngagementCreationModal({
                   />
                   <Label
                     htmlFor={engagement.id}
-                    className="text-white text-sm cursor-pointer flex-1"
+                    className="text-foreground text-sm cursor-pointer flex-1"
                   >
                     {engagement.label}
                   </Label>
@@ -179,7 +179,7 @@ export function EngagementCreationModal({
                     <Badge
                       key={engagementId}
                       variant="secondary"
-                      className="bg-purple-600 text-white"
+                      className="bg-purple-600 text-foreground"
                     >
                       {getEngagementLabel(engagementId)}
                       <Button
@@ -189,7 +189,7 @@ export function EngagementCreationModal({
                         onClick={() =>
                           handleEngagementToggle(engagementId, false)
                         }
-                        className="ml-1 h-4 w-4 p-0 text-white hover:text-gray-300"
+                        className="ml-1 h-4 w-4 p-0 text-foreground hover:text-gray-300"
                       >
                         <X className="h-3 w-3" />
                       </Button>
@@ -206,13 +206,13 @@ export function EngagementCreationModal({
               type="button"
               variant="outline"
               onClick={onClose}
-              className="flex-1 bg-gray-700 border-gray-600 text-white hover:bg-gray-600"
+              className="flex-1 bg-gray-700 border-gray-600 text-foreground hover:bg-gray-600"
             >
               Cancel
             </Button>
             <Button
               type="submit"
-              className="flex-1 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-white"
+              className="flex-1 bg-gradient-to-r from-purple-600 to-blue-500 hover:from-purple-700 hover:to-blue-600 text-foreground"
             >
               Post Task
             </Button>

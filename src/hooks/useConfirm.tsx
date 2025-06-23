@@ -92,7 +92,7 @@ export function useConfirm() {
             onClick={handleConfirm}
             disabled={loading}
             className={cn(
-              "text-white",
+              "text-foreground",
               options.variant === "danger"
                 ? "bg-red-600 hover:bg-red-700"
                 : "bg-primary hover:bg-secondary"

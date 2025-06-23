@@ -226,7 +226,7 @@ export default function AdminPage() {
     <div className="space-y-6">
       <div className="w-full flex justify-start sm:justify-end items-end mb-6">
         <button
-          className="bg-primary hover:bg-secondary text-white font-medium px-4 py-2 rounded-md"
+          className="bg-primary hover:bg-secondary text-foreground font-medium px-4 py-2 rounded-md"
           onClick={handleAddAdmin}
         >
           Add Admin

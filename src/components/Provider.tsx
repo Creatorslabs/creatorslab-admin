@@ -19,7 +19,7 @@ export function Providers({ children }: ProvidersProps) {
         <SidebarProvider>
           {children}
           <ConfirmModal />
-          <Toaster position="bottom-right" />
+          <Toaster position="top-right" />
         </SidebarProvider>
       </ErrorBoundary>
     </SessionProvider>

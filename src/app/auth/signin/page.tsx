@@ -9,6 +9,7 @@ import { Label } from "@/components/ui/label";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import { FcGoogle } from "react-icons/fc";
+import { toast } from "@/hooks/use-toast";
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
@@ -29,9 +30,17 @@ export default function LoginPage() {
     setLoading(false);
 
     if (res?.ok) {
+      toast({
+        title: "Login successful",
+        description: "Welcome back!",
+      });
       router.push("/");
     } else {
-      alert(res?.error || "Login failed");
+      toast({
+        title: "Login failed",
+        variant: "destructive",
+        description: res?.error || "Invalid email or password",
+      });
     }
   };
 

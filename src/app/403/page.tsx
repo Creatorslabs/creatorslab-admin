@@ -18,7 +18,7 @@ export default function ForbiddenPage() {
               height={30}
               alt="CreatorsLab logo"
             />
-            <span className="text-white text-2xl font-semibold">
+            <span className="text-foreground text-2xl font-semibold">
               creatorslab
             </span>
           </div>
@@ -29,7 +29,7 @@ export default function ForbiddenPage() {
           <div className="flex items-center justify-center mb-6">
             <div className="relative">
               <div className="w-24 h-24 bg-gradient-to-r from-red-500 to-orange-500 rounded-full flex items-center justify-center animate-pulse">
-                <Lock className="w-12 h-12 text-white" />
+                <Lock className="w-12 h-12 text-foreground" />
               </div>
               <div className="absolute inset-0 w-24 h-24 bg-red-500/20 rounded-full blur-xl animate-ping"></div>
             </div>
@@ -45,7 +45,7 @@ export default function ForbiddenPage() {
 
         {/* Content */}
         <div className="space-y-6 mb-12">
-          <h1 className="text-3xl md:text-4xl font-bold text-white mb-4">
+          <h1 className="text-3xl md:text-4xl font-bold text-foreground mb-4">
             Access Forbidden
           </h1>
           <p className="text-gray-400 text-lg md:text-xl max-w-lg mx-auto leading-relaxed">
@@ -73,7 +73,7 @@ export default function ForbiddenPage() {
         {/* Action Buttons */}
         <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
           <Link href="/dashboard">
-            <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 flex items-center space-x-2">
+            <Button className="bg-gradient-to-r from-purple-600 to-blue-600 hover:from-purple-700 hover:to-blue-700 text-foreground px-8 py-3 rounded-lg font-medium transition-all duration-300 transform hover:scale-105 hover:shadow-lg hover:shadow-purple-500/25 flex items-center space-x-2">
               <Home className="w-5 h-5" />
               <span>Go to Dashboard</span>
             </Button>
@@ -82,7 +82,7 @@ export default function ForbiddenPage() {
           <Button
             variant="outline"
             onClick={() => window.history.back()}
-            className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-white px-8 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
+            className="border-gray-600 text-gray-300 hover:bg-gray-800 hover:text-foreground px-8 py-3 rounded-lg font-medium transition-all duration-300 flex items-center space-x-2"
           >
             <ArrowLeft className="w-5 h-5" />
             <span>Go Back</span>
@@ -91,7 +91,7 @@ export default function ForbiddenPage() {
 
         {/* Help Section */}
         <div className="mt-12 p-6 bg-gray-900/50 rounded-xl border border-gray-800 backdrop-blur-sm">
-          <h3 className="text-white font-semibold mb-3 flex items-center justify-center space-x-2">
+          <h3 className="text-foreground font-semibold mb-3 flex items-center justify-center space-x-2">
             <Shield className="w-5 h-5 text-purple-400" />
             <span>Need Access?</span>
           </h3>

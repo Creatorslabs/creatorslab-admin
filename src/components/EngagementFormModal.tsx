@@ -200,7 +200,7 @@ export function EngagementFormModal({
                   status: e.target.value as "Active" | "Inactive",
                 }))
               }
-              className="bg-card border-border text-white p-2 rounded-md w-full"
+              className="bg-card border-border text-foreground p-2 rounded-md w-full"
             >
               <option value="Active">Active</option>
               <option value="Inactive">Inactive</option>
@@ -219,7 +219,7 @@ export function EngagementFormModal({
             </Button>
             <Button
               type="submit"
-              className="bg-primary text-white hover:bg-secondary"
+              className="bg-primary text-foreground hover:bg-secondary"
             >
               {mode === "edit" ? "Update Engagement" : "Create Engagement"}
             </Button>

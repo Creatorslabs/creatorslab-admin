@@ -31,7 +31,7 @@ const variantConfig: Record<
 > = {
   default: {
     icon: <Info className="h-5 w-5 text-blue-500" />,
-    className: "bg-white dark:bg-zinc-900 text-black dark:text-white",
+    className: "bg-white dark:bg-zinc-900 text-black dark:text-foreground",
   },
   success: {
     icon: <CheckCircle className="h-5 w-5 text-green-600" />,
@@ -52,8 +52,8 @@ const variantConfig: Record<
     className: "bg-red-50 dark:bg-red-900 text-red-900 dark:text-red-100",
   },
   destructive: {
-    icon: <Trash2 className="h-5 w-5 text-white" />,
-    className: "bg-red-600 text-white",
+    icon: <Trash2 className="h-5 w-5 text-foreground" />,
+    className: "bg-red-600 text-foreground",
   },
 };
 

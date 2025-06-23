@@ -272,7 +272,7 @@ export function AdminFormModal({
             <Button
               type="submit"
               className={cn(
-                "text-white",
+                "text-foreground",
                 mode === "ban"
                   ? "bg-red-600 hover:bg-red-700"
                   : mode === "restrict" || mode === "unrestrict"

@@ -56,7 +56,7 @@ export function ConfirmationModal({
             onClick={onConfirm}
             disabled={loading}
             className={cn(
-              "text-white",
+              "text-foreground",
               variant === "danger"
                 ? "bg-red-600 hover:bg-red-700"
                 : "bg-primary hover:bg-secondary"

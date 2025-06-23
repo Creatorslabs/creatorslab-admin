@@ -23,6 +23,7 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useLoader } from "@/hooks/useLoader";
 import { toast } from "@/hooks/use-toast";
+import { TaskViewModal } from "@/components/task-view-modal";
 
 export default function TasksPage() {
   const [tasksData, setTasksData] = useState<Partial<ITask>[]>([]);
@@ -40,7 +41,6 @@ export default function TasksPage() {
     hasNext: false,
     hasPrev: false,
   });
-  const [loading, setLoading] = useState(false);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const [socialPlatforms, setSocialPlatforms] = useState<
@@ -51,6 +51,7 @@ export default function TasksPage() {
   >({});
 
   const [modalMode, setModalMode] = useState<"create" | "edit" | null>(null);
+  const [isViewModalOpen, setIsViewModalOpen] = useState(false);
   const [selectedTask, setSelectedTask] = useState<any>(null);
   const { confirm, ConfirmModal } = useConfirm();
   const { showLoader, hideLoader, LoaderModal } = useLoader();
@@ -65,7 +66,7 @@ export default function TasksPage() {
     {
       key: "actions",
       header: "",
-      render: (engagement: any) => (
+      render: (task: any) => (
         <DropdownMenu>
           <DropdownMenuTrigger asChild>
             <button
@@ -81,33 +82,33 @@ export default function TasksPage() {
             className="bg-card-box border border-border rounded-md shadow-lg w-44 p-1"
           >
             <DropdownMenuItem
-              onClick={() => handleView(engagement)}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 rounded-md hover:bg-gray-700 hover:text-white transition-colors cursor-pointer"
+              onClick={() => handleViewTask(task)}
+              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 rounded-md hover:bg-gray-700 hover:text-foreground transition-colors cursor-pointer"
             >
               <Eye className="h-4 w-4 text-purple-400" />
               View
             </DropdownMenuItem>
 
             <DropdownMenuItem
-              onClick={() => handleEdit(engagement)}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 rounded-md hover:bg-gray-700 hover:text-white transition-colors cursor-pointer"
+              onClick={() => handleEdit(task)}
+              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 rounded-md hover:bg-gray-700 hover:text-foreground transition-colors cursor-pointer"
             >
               <Pencil className="h-4 w-4 text-blue-400" />
               Edit
             </DropdownMenuItem>
 
-            {engagement.status !== "completed" && (
+            {task.status !== "completed" && (
               <DropdownMenuItem
-                onClick={() => handleToggleStatus(engagement)}
+                onClick={() => handleToggleStatus(task)}
                 className={`flex items-center gap-2 px-3 py-2 text-sm rounded-md transition-colors cursor-pointer
       ${
-        engagement.status === "active"
+        task.status === "active"
           ? "text-yellow-400 hover:text-yellow-300 hover:bg-gray-700"
           : "text-green-400 hover:text-green-300 hover:bg-gray-700"
       }`}
               >
                 <Power className="h-4 w-4" />
-                {engagement.status === "active" ? "Deactivate" : "Activate"}
+                {task.status === "active" ? "Deactivate" : "Activate"}
               </DropdownMenuItem>
             )}
           </DropdownMenuContent>
@@ -223,10 +224,9 @@ export default function TasksPage() {
     fetchTasks(newPage);
   };
 
-  const handleView = (task: any) => {
-    // setModalMode('view');
+  const handleViewTask = (task: any) => {
     setSelectedTask(task);
-    setIsModalOpen(true);
+    setIsViewModalOpen(true);
   };
 
   const handleEdit = (task: any) => {
@@ -342,6 +342,11 @@ export default function TasksPage() {
         socialPlatforms={socialPlatforms}
         engagementOptions={engagementOptions}
       />
+      <TaskViewModal
+          isOpen={isViewModalOpen}
+          onClose={() => setIsViewModalOpen(false)}
+          task={selectedTask}
+        />
       <ConfirmModal />
       <LoaderModal />
     </div>

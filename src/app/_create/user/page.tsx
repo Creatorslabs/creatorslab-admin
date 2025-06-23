@@ -58,7 +58,7 @@ export default function CreateUserPage() {
 
   return (
     <div className="max-w-xl mx-auto p-6 space-y-6">
-      <h1 className="text-xl font-semibold text-white">Create New User</h1>
+      <h1 className="text-xl font-semibold text-foreground">Create New User</h1>
 
       <div className="space-y-4">
         <div>
@@ -85,7 +85,7 @@ export default function CreateUserPage() {
           <select
             value={formData.role}
             onChange={(e) => handleChange("role", e.target.value)}
-            className="w-full bg-card-box border border-border rounded p-2 text-white"
+            className="w-full bg-card-box border border-border rounded p-2 text-foreground"
           >
             <option value="user">User</option>
             <option value="creator">Creator</option>

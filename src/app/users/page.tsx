@@ -20,6 +20,8 @@ import {
 } from "@/components/ui/dropdown-menu";
 import { useLoader } from "@/hooks/useLoader";
 import { toast } from "@/hooks/use-toast";
+import { IUser } from "@/lib/models/User";
+import { UserViewModal } from "@/components/user-view-modal";
 
 export default function UsersPage() {
   const [users, setUsers] = useState([]);
@@ -36,7 +38,7 @@ export default function UsersPage() {
     hasNext: false,
     hasPrev: false,
   });
-  const [selectedTask, setSelectedTask] = useState<any>(null);
+  const [selectedUser, setSelectedUser] = useState<IUser | null>(null);
   const { confirm, ConfirmModal } = useConfirm();
   const { LoaderModal, showLoader, hideLoader } = useLoader();
   const [isModalOpen, setIsModalOpen] = useState(false);
@@ -71,7 +73,7 @@ export default function UsersPage() {
     { key: "role", header: "Account type" },
     {
       key: "status",
-      header: "Status",
+      header: "Verification",
       render: (row: any) => {
         const isVerified =
           row.verification?.email &&
@@ -91,7 +93,7 @@ export default function UsersPage() {
     },
     {
       key: "active",
-      header: "Account Info",
+      header: "Status",
       render: (row: any) => {
         const isVerified =
           row.verification?.email &&
@@ -128,8 +130,8 @@ export default function UsersPage() {
             className="bg-card-box border border-border rounded-md shadow-lg w-44 p-1"
           >
             <DropdownMenuItem
-              onClick={() => handleEdit(user)}
-              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 rounded-md hover:bg-gray-700 hover:text-white transition-colors cursor-pointer"
+              onClick={() => handleViewUser(user)}
+              className="flex items-center gap-2 px-3 py-2 text-sm text-gray-300 rounded-md hover:bg-gray-700 hover:text-foreground transition-colors cursor-pointer"
             >
               <Eye className="h-4 w-4 text-purple-400" />
               View
@@ -176,8 +178,8 @@ export default function UsersPage() {
     fetchUsers();
   }, []);
 
-  const handleEdit = (task: any) => {
-    setSelectedTask(task);
+  const handleViewUser = (user: any) => {
+    setSelectedUser(user);
     setIsModalOpen(true);
   };
 
@@ -261,6 +263,12 @@ export default function UsersPage() {
         data={users}
         pagination={{ ...pagination, onPageChange: (page) => fetchUsers(page) }}
       />
+
+        <UserViewModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+          user={selectedUser}
+        />
       <ConfirmModal />
       <LoaderModal />
     </div>

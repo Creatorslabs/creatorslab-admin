@@ -5,6 +5,7 @@ import { useRouter } from "next/navigation";
 import { Users, TrendingUp, CheckSquare } from "lucide-react";
 import { DataTable } from "@/components/data-table";
 import { StatCard } from "@/components/stat-card";
+import { useLoader } from "@/hooks/useLoader";
 
 type UserType = {
   _id: string;
@@ -37,9 +38,11 @@ export default function DashboardPage() {
   const [usersData, setUsersData] = useState<UserType[]>([]);
   const [tasksData, setTasksData] = useState<TaskType[]>([]);
   const [loading, setLoading] = useState(true);
+  const { showLoader, hideLoader, LoaderModal} = useLoader()
 
   useEffect(() => {
     const fetchDashboardData = async () => {
+      showLoader({ message: "Loading dashboard..."})
       try {
         const [statsRes, usersRes, tasksRes] = await Promise.all([
           fetch("/api/stats"),
@@ -60,6 +63,7 @@ export default function DashboardPage() {
         console.error("Dashboard fetch error:", err);
       } finally {
         setLoading(false);
+        hideLoader()
       }
     };
 
@@ -102,7 +106,7 @@ export default function DashboardPage() {
     },
     {
       key: "status",
-      header: "Status",
+      header: "Verification",
       render: (row: UserType) => {
         const verified =
           row.verification?.email &&
@@ -180,6 +184,7 @@ export default function DashboardPage() {
           />
         </div>
       </div>
+      <LoaderModal />
     </div>
   );
 }
