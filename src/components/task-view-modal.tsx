@@ -29,10 +29,14 @@ import {
 import Image from 'next/image';
 import { ITask } from '@/lib/models/Task';
 
+interface ITaskM extends ITask {
+    participants: String[];
+}
+
 interface TaskViewModalProps {
   isOpen: boolean;
   onClose: () => void;
-  task: ITask | null;
+  task: ITaskM | null;
 }
 
 export function TaskViewModal({ isOpen, onClose, task }: TaskViewModalProps) {
