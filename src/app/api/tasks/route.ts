@@ -3,6 +3,7 @@ import { getServerSession } from "next-auth";
 import { authOptions } from "@/lib/utils/authOptions";
 import connectDB from "@/lib/connectDB";
 import { Admin, IAdmin } from "@/lib/models/Admin";
+import "@/lib/models/User";
 import { Task } from "@/lib/models/Task";
 import { Participation } from "@/lib/models/Participation";
 
