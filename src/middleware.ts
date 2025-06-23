@@ -75,8 +75,20 @@ export default withAuth(
 
     // Role-based route control
     if (role && roleRouteMap[role]) {
-      const allowedPaths = roleRouteMap[role];      
+      const allowedPaths = roleRouteMap[role];
 
+      // If the path is in the restricted list, check if role is allowed
+      const isProtected = allowedPaths.some(
+        (allowedPath) =>
+          path === allowedPath || path.startsWith(`${allowedPath}/`)
+      );
+
+      if (!isProtected) {
+        // Let it through since it's not in any protected path
+        return null;
+      }
+
+      // If it *is* protected but the user role doesn't have it, redirect
       const isAllowed = allowedPaths.some(
         (allowedPath) =>
           path === allowedPath || path.startsWith(`${allowedPath}/`)
