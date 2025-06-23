@@ -67,7 +67,7 @@ export function AdminNavbar() {
 function getTitleFromPath(path: string) {
   const routes: Record<string, string> = {
     "/": "Dashboard",
-    "/task": "Tasks",
+    "/tasks": "Tasks",
     "/users": "Users",
     "/engagement": "Engagement",
     "/admins": "Admin",
