@@ -30,7 +30,7 @@ import Image from 'next/image';
 import { ITask } from '@/lib/models/Task';
 
 interface ITaskM extends ITask {
-    participants: String[];
+    participants: string[];
 }
 
 interface TaskViewModalProps {

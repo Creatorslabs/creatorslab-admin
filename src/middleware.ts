@@ -13,7 +13,6 @@ const roleRouteMap: Record<
     "/engagement",
     "/admins",
     "/profile",
-    "/landing"
   ],
   Admin: ["/", "/users", "/tasks", "/engagement", "/admins", "/profile"],
   Moderator: ["/", "/tasks", "/engagement", "/profile"],
