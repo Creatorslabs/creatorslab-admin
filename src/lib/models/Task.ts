@@ -10,7 +10,6 @@ export interface ITask extends Document {
   target: string;
   rewardPoints: number;
   maxParticipants: number;
-  participants: String[]; // ref participation schema
   status: "active" | "completed" | "inactive";
   expiration?: Date;
   createdAt?: Date;
