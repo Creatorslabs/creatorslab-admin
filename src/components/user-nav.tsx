@@ -27,8 +27,8 @@ export function UserNav() {
                   width={25}
                   height={25}
                   src="https://i.pravatar.cc/100"
-                  quality={75}
                   alt="Fallback Avatar"
+                  quality={75}
                   loader={({ src, width, quality }) =>
                     `${src}?w=${width}&q=${quality || 75}`
                   }

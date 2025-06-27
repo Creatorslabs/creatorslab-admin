@@ -6,6 +6,7 @@ import { Admin, IAdmin } from "@/lib/models/Admin";
 import "@/lib/models/User";
 import { Task } from "@/lib/models/Task";
 import { Participation } from "@/lib/models/Participation";
+import { Engagement } from "@/lib/models/Engagement";
 
 const PAGE_LIMIT = 20;
 
@@ -30,7 +31,7 @@ export async function GET(request: Request) {
     const limit = parseInt(searchParams.get("limit") || PAGE_LIMIT.toString(), 10);
     const skip = (page - 1) * limit;
 
-    const [tasks, total, completed, pending, participations] = await Promise.all([
+    const [tasks, total, completed, pending, participations, engagements] = await Promise.all([
       Task.find({})
         .skip(skip)
         .limit(limit)
@@ -44,6 +45,7 @@ export async function GET(request: Request) {
       Participation.find({})
         .select("taskId userId status proof")
         .lean(),
+      Engagement.find({ status: "Active" }).lean()
     ]);
 
     // Group participations by taskId
@@ -54,12 +56,33 @@ export async function GET(request: Request) {
       participationMap[key].push(part);
     }
 
-    // Add participants to each task
-    const taskRemap = tasks.map((task) => ({
+    // Map tasks with participants
+    const taskRemap = tasks.map((task: any) => ({
       ...task,
       creator: task.creator?.username || "Unknown",
       participants: participationMap[(task._id as string).toString()] || [],
     }));
+
+    // Extract unique social platforms
+    const platformSet = new Set(engagements.map((e: any) => e.socialPlatform));
+    const socialPlatforms = Array.from(platformSet).map((platform: any) => ({
+      value: platform,
+      label: platform.charAt(0).toUpperCase() + platform.slice(1),
+    }));
+
+    // Group engagement types by platform
+    const engagementOptions: Record<string, string[]> = {};
+    for (const engagement of engagements) {
+      if (!engagementOptions[engagement.socialPlatform]) {
+        engagementOptions[engagement.socialPlatform] = [];
+      }
+      engagementOptions[engagement.socialPlatform].push(...engagement.engagementType);
+    }
+
+    // Remove duplicates in engagement types
+    for (const key in engagementOptions) {
+      engagementOptions[key] = [...new Set(engagementOptions[key])];
+    }
 
     return NextResponse.json({
       success: true,
@@ -77,12 +100,15 @@ export async function GET(request: Request) {
         hasNext: page < Math.ceil(total / limit),
         hasPrev: page > 1,
       },
+      socialPlatforms,
+      engagementOptions,
     });
   } catch (error) {
     console.error("GET /api/tasks error:", error);
     return NextResponse.json({ error: "Internal Server Error" }, { status: 500 });
   }
 }
+
 
 export async function POST(request: Request) {
   try {
