@@ -9,18 +9,14 @@ import {
   SheetHeader,
   SheetContent,
   SheetTrigger,
-  SheetTitle,
   SheetDescription,
 } from "@/components/ui/sheet";
 import { Menu } from "./menu";
-import { usePathname } from "next/navigation";
 import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { DialogTitle } from "@radix-ui/react-dialog";
 
 export function SheetMenu() {
-  const pathname = usePathname();
-
   return (
     <Sheet aria-describedby="navbar">
       <SheetDescription className="sr-only" />
