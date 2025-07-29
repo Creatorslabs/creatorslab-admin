@@ -24,9 +24,9 @@ export async function PATCH(
 
     const { status } = await req.json();
 
-    if (!["pending"].includes(status)) {
+    if (!["completed", "rejected"].includes(status)) {
       return NextResponse.json(
-        { error: "Invalid status. Must be 'pending'." },
+        { error: "Invalid status. Must be 'completed' or 'rejected'." },
         { status: 400 }
       );
     }

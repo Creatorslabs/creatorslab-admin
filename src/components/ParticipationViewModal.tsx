@@ -33,6 +33,7 @@ interface ParticipationViewModalProps {
   isOpen: boolean;
   onClose: () => void;
   participation: IParticipation | null;
+  onComplete: () => void;
 }
 
 const isImageLink = (url: string): boolean => {
@@ -43,6 +44,7 @@ export function ParticipationViewModal({
   isOpen,
   onClose,
   participation,
+  onComplete,
 }: ParticipationViewModalProps) {
   const [loading, setLoading] = useState(false);
 
@@ -67,6 +69,7 @@ export function ParticipationViewModal({
         } successfully`,
         variant: "success",
       });
+      onComplete();
       onClose();
     } catch (err) {
       toast({

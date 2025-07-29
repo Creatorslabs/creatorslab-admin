@@ -96,6 +96,11 @@ export default function ParticipationsPage() {
     setIsViewModalOpen(true);
   };
 
+  const handleComplete = () => {
+    fetchParticipations(pagination.page);
+    setIsViewModalOpen(false);
+  };
+
   const columns = [
     {
       key: "taskId.title",
@@ -195,6 +200,7 @@ export default function ParticipationsPage() {
         isOpen={isViewModalOpen}
         onClose={() => setIsViewModalOpen(false)}
         participation={selectedParticipation}
+        onComplete={handleComplete}
       />
 
       <LoaderModal />
