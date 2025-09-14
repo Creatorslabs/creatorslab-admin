@@ -269,6 +269,7 @@ export default function LogsPage() {
               onClick={() => {
                 setFilters({});
                 setShowFilters(false);
+                fetchLogs(1, true);
               }}
             >
               Reset
