@@ -6,6 +6,7 @@ import {
   Shield,
   User,
   BarChart3,
+  FileText,
 } from "lucide-react";
 
 export function getMenuList(role: string) {
@@ -18,6 +19,7 @@ export function getMenuList(role: string) {
         { href: "/participation", label: "Participation", icon: BarChart3 },
         { href: "/engagement", label: "Engagement", icon: Activity },
         { href: "/admins", label: "Admin", icon: Shield },
+        { href: "/logs", label: "Logs", icon: FileText },
         { href: "/profile", label: "Profile", icon: User },
       ];
     case "Admin":

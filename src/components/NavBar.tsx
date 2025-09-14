@@ -72,6 +72,8 @@ function getTitleFromPath(path: string) {
     "/engagement": "Engagement",
     "/admins": "Admin",
     "/profile": "Profile",
+    "/logs": "Logs",
+    "/participation": "Participation",
   };
 
   return routes[path] || "Page";
